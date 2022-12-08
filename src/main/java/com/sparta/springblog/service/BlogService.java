@@ -1,8 +1,8 @@
 package com.sparta.springblog.service;
 
 import com.sparta.springblog.dto.CreateResponseDto;
-import com.sparta.springblog.dto.PostingRequestDto;
 import com.sparta.springblog.dto.PostingResponseDto;
+import com.sparta.springblog.dto.UpdateRequestDto;
 import com.sparta.springblog.entity.Posting;
 import com.sparta.springblog.repository.BlogRepository;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +53,7 @@ public class BlogService {
     }
 
     @Transactional
-    public String update(Long id, String password, PostingRequestDto requestDto) {
+    public String update(Long id, String password, UpdateRequestDto requestDto) {
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 글입니다.")
         );

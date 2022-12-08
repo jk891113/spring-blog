@@ -1,6 +1,6 @@
 package com.sparta.springblog.entity;
 
-import com.sparta.springblog.dto.PostingRequestDto;
+import com.sparta.springblog.dto.UpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,9 +32,8 @@ public class Posting extends TimeStamped{
         this.contents = contents;
     }
 
-    public void update(PostingRequestDto requestDto) {
+    public void update(UpdateRequestDto requestDto) {
         this.writerName = requestDto.getWriterName();
-        this.password = requestDto.getPassword();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
     }

@@ -3,6 +3,7 @@ package com.sparta.springblog.controller;
 import com.sparta.springblog.dto.CreateResponseDto;
 import com.sparta.springblog.dto.PostingRequestDto;
 import com.sparta.springblog.dto.PostingResponseDto;
+import com.sparta.springblog.dto.UpdateRequestDto;
 import com.sparta.springblog.service.BlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,7 @@ public class BlogController {
     }
 
     @PutMapping("/posting/{id}/{password}")
-    public String updatePosting(@PathVariable Long id, @PathVariable String password, @RequestBody PostingRequestDto requestDto) {
+    public String updatePosting(@PathVariable Long id, @PathVariable String password, @RequestBody UpdateRequestDto requestDto) {
         return blogService.update(id, password, requestDto);
     }
 
