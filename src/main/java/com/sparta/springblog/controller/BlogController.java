@@ -1,8 +1,8 @@
 package com.sparta.springblog.controller;
 
-import com.sparta.springblog.dto.PostingRequestDto;
 import com.sparta.springblog.dto.CreateResponseDto;
-import com.sparta.springblog.entity.Posting;
+import com.sparta.springblog.dto.PostingRequestDto;
+import com.sparta.springblog.dto.PostingResponseDto;
 import com.sparta.springblog.service.BlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -26,17 +26,17 @@ public class BlogController {
     }
 
     @GetMapping("/api/postings")
-    public List<Posting> getAllPostings() {
+    public List<PostingResponseDto> getAllPostings() {
         return blogService.getAllPostings();
     }
 
     @GetMapping("/api/posting/id/{id}")
-    public List<Posting> getPostingById(@PathVariable Long id) {
+    public PostingResponseDto getPostingById(@PathVariable Long id) {
         return blogService.getPostingById(id);
     }
 
     @GetMapping("/api/posting/writerName/{writerName}")
-    public List<Posting> getPostingByWriterName(@PathVariable String writerName) {
+    public List<PostingResponseDto> getPostingByWriterName(@PathVariable String writerName) {
         return blogService.getPostingByWriterName(writerName);
     }
 

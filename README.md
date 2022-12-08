@@ -26,8 +26,8 @@ ___
 |                        | Method | URL                                  | Request                                                                                                                      | Response |
 |------------------------|--------|--------------------------------------|------------------------------------------------------------------------------------------------------------------------------|----------|
 | CreatePosting          | Post   | /api/posting                         | {<br/>"title" : "title",<br/>"contents" : "contents",<br/>"writerName" : "writerName",<br/>"password" : "password"<br/>}     |          |
-| getAllPosting          | GET    | /api/postings                        |                                                                                                                              |          |
-| getPostingById         | GET    | /api/posting/id/{id}                 |                                                                                                                              |          |
-| getPostingByWriterName | GET    | /api/posting/writerName/{writerName} |                                                                                                                              |          |
+| getAllPosting          | GET    | /api/postings                        | -                                                                                                                            |          |
+| getPostingById         | GET    | /api/posting/id/{id}                 | -                                                                                                                            |          |
+| getPostingByWriterName | GET    | /api/posting/writerName/{writerName} | -                                                                                                                            |          |
 | updatePosting          | PUT    | /api/posting/{id}/{password}         | {<br/>"title" : "title2",<br/>"contents" : "contents2",<br/>"writerName" : "writerName2",<br/>"password" : "password2"<br/>} |          |
 | deletePosting          | DELETE | /api/posting/{id}/{password}         |                                                                                                                              |          |

@@ -8,5 +8,4 @@ public class PostingRequestDto {
     private String password;
     private String title;
     private String contents;
-
 }

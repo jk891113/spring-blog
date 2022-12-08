@@ -12,7 +12,7 @@ public class CreateResponseDto {
     private String password;
     private String contents;
 
-    public void getPostingForCreate(Posting posting) {
+    public CreateResponseDto(Posting posting) {
         this.title = posting.getTitle();
         this.password = posting.getPassword();
         this.writerName = posting.getWriterName();

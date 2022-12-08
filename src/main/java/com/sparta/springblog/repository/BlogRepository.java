@@ -8,6 +8,5 @@ import java.util.List;
 public interface BlogRepository extends JpaRepository<Posting, Long> {
     List<Posting> getAllByOrderByModifiedAtDesc();
     List<Posting> getPostingByWriterName(String writerName);
-    List<Posting> findAllByWriterNameOrderByModifiedAtDesc(String writerName);
-    List<Posting> getPostingById(Long id);
+    Posting getPostingById(Long id);
 }
