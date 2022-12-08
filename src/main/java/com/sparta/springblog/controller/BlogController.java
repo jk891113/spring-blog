@@ -20,32 +20,32 @@ public class BlogController {
         return new ModelAndView();
     }
 
-    @PostMapping("/api/posting")
+    @PostMapping("/posting")
     public CreateResponseDto createPosting(@RequestBody PostingRequestDto requestDto) {
         return blogService.createPosting(requestDto.getWriterName(), requestDto.getPassword(), requestDto.getTitle(), requestDto.getContents());
     }
 
-    @GetMapping("/api/postings")
+    @GetMapping("/postings")
     public List<PostingResponseDto> getAllPostings() {
         return blogService.getAllPostings();
     }
 
-    @GetMapping("/api/posting/id/{id}")
+    @GetMapping("/posting/id/{id}")
     public PostingResponseDto getPostingById(@PathVariable Long id) {
         return blogService.getPostingById(id);
     }
 
-    @GetMapping("/api/posting/writerName/{writerName}")
+    @GetMapping("/posting/writerName/{writerName}")
     public List<PostingResponseDto> getPostingByWriterName(@PathVariable String writerName) {
         return blogService.getPostingByWriterName(writerName);
     }
 
-    @PutMapping("/api/posting/{id}/{password}")
+    @PutMapping("/posting/{id}/{password}")
     public String updatePosting(@PathVariable Long id, @PathVariable String password, @RequestBody PostingRequestDto requestDto) {
         return blogService.update(id, password, requestDto);
     }
 
-    @DeleteMapping("/api/posting/{id}/{password}")
+    @DeleteMapping("/posting/{id}/{password}")
     public String deletePosting(@PathVariable Long id, @PathVariable String password) {
         return blogService.deletePosting(id, password);
     }
