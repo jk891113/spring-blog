@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class PostingResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private Long id;
     private String title;
     private String writerName;
     private String contents;
@@ -18,6 +19,7 @@ public class PostingResponseDto {
     public PostingResponseDto(Posting posting) {
         this.createdAt = posting.getCreatedAt();
         this.modifiedAt = posting.getModifiedAt();
+        this.id = posting.getId();
         this.title = posting.getTitle();
         this.writerName = posting.getWriterName();
         this.contents = posting.getContents();
