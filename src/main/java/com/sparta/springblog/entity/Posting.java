@@ -1,6 +1,6 @@
 package com.sparta.springblog.entity;
 
-import com.sparta.springblog.dto.UpdateRequestDto;
+import com.sparta.springblog.requestdto.UpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

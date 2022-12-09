@@ -1,8 +1,8 @@
 package com.sparta.springblog.service;
 
-import com.sparta.springblog.dto.CreateResponseDto;
-import com.sparta.springblog.dto.PostingResponseDto;
-import com.sparta.springblog.dto.UpdateRequestDto;
+import com.sparta.springblog.responsedto.CreateResponseDto;
+import com.sparta.springblog.responsedto.PostingResponseDto;
+import com.sparta.springblog.requestdto.UpdateRequestDto;
 import com.sparta.springblog.entity.Posting;
 import com.sparta.springblog.repository.BlogRepository;
 import lombok.RequiredArgsConstructor;

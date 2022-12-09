@@ -1,26 +1,22 @@
-package com.sparta.springblog.dto;
+package com.sparta.springblog.responsedto;
 
 import com.sparta.springblog.entity.Posting;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
-public class PostingResponseDto {
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+public class CreateResponseDto {
     private Long id;
     private String title;
     private String writerName;
+    private String password;
     private String contents;
 
-    public PostingResponseDto(Posting posting) {
-        this.createdAt = posting.getCreatedAt();
-        this.modifiedAt = posting.getModifiedAt();
+    public CreateResponseDto(Posting posting) {
         this.id = posting.getId();
         this.title = posting.getTitle();
+        this.password = posting.getPassword();
         this.writerName = posting.getWriterName();
         this.contents = posting.getContents();
     }

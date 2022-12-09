@@ -1,9 +1,9 @@
 package com.sparta.springblog.controller;
 
-import com.sparta.springblog.dto.CreateResponseDto;
-import com.sparta.springblog.dto.PostingRequestDto;
-import com.sparta.springblog.dto.PostingResponseDto;
-import com.sparta.springblog.dto.UpdateRequestDto;
+import com.sparta.springblog.responsedto.CreateResponseDto;
+import com.sparta.springblog.requestdto.PostingRequestDto;
+import com.sparta.springblog.responsedto.PostingResponseDto;
+import com.sparta.springblog.requestdto.UpdateRequestDto;
 import com.sparta.springblog.service.BlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
