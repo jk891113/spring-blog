@@ -1,16 +1,16 @@
 package com.sparta.springblog.service;
 
-import com.sparta.springblog.responsedto.CreateResponseDto;
-import com.sparta.springblog.responsedto.PostingResponseDto;
-import com.sparta.springblog.requestdto.UpdateRequestDto;
 import com.sparta.springblog.entity.Posting;
 import com.sparta.springblog.repository.BlogRepository;
+import com.sparta.springblog.requestdto.UpdateRequestDto;
+import com.sparta.springblog.responsedto.CreateResponseDto;
+import com.sparta.springblog.responsedto.PostingResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,11 +27,12 @@ public class BlogService {
     @Transactional(readOnly = true)
     public List<PostingResponseDto> getAllPostings() {
         List<Posting> postingList = blogRepository.getAllByOrderByModifiedAtDesc();
-        List<PostingResponseDto> responseDtoList = new ArrayList<>();
-        for (Posting posting : postingList) {
-            PostingResponseDto responseDto = new PostingResponseDto(posting);
-            responseDtoList.add(responseDto);
-        }
+        List<PostingResponseDto> responseDtoList = postingList.stream().map(posting -> new PostingResponseDto(posting)).collect(Collectors.toList());
+//        List<PostingResponseDto> responseDtoList = new ArrayList<>();
+//        for (Posting posting : postingList) {
+//            PostingResponseDto responseDto = new PostingResponseDto(posting);
+//            responseDtoList.add(responseDto);
+//        }
         return responseDtoList;
     }
 
@@ -44,11 +45,12 @@ public class BlogService {
     @Transactional(readOnly = true)
     public List<PostingResponseDto> getPostingByWriterName(String writerName) {
         List<Posting> postingList = blogRepository.getPostingByWriterName(writerName);
-        List<PostingResponseDto> responseDtoList = new ArrayList<>();
-        for (Posting posting : postingList) {
-            PostingResponseDto responseDto = new PostingResponseDto(posting);
-            responseDtoList.add(responseDto);
-        }
+        List<PostingResponseDto> responseDtoList = postingList.stream().map(posting -> new PostingResponseDto(posting)).collect(Collectors.toList());
+//        List<PostingResponseDto> responseDtoList = new ArrayList<>();
+//        for (Posting posting : postingList) {
+//            PostingResponseDto responseDto = new PostingResponseDto(posting);
+//            responseDtoList.add(responseDto);
+//        }
         return responseDtoList;
     }
 
