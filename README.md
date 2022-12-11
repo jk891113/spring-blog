@@ -1,7 +1,11 @@
 # Spring 입문 강의 개인 과제
+
 ## 블로그 백엔드 서버 만들기
 ___
 [![My Skills](https://skillicons.dev/icons?i=java,idea,git,github)](https://skillicons.dev)
+___
+### 주의사항
+     - Entity를 그대로 반환하지 말고, DTO에 담아서 반환
 ___
 ## 요구사항
 ### 1. 아래의 요구사항을 기반으로 Use Case 그려보기
@@ -32,3 +36,8 @@ ___
 | getPostingByWriterName | GET    | /posting/writerName/{writerName} | -                                                                                            | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
 | updatePosting          | PUT    | /posting/{id}/{password} | title2<br/>contents2<br/>writerName2 |                                                                                                                                   |
 | deletePosting          | DELETE | /posting/{id}/{password} |                                                                                              |                                                                                                                                   |
+
+___
+
+# Spring 숙련 강의 개인과제 Lv.1
+

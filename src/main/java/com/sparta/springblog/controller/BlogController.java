@@ -23,7 +23,11 @@ public class BlogController {
 
     @PostMapping("/posting")
     public CreateResponseDto createPosting(@RequestBody PostingRequestDto requestDto) {
-        return blogService.createPosting(requestDto.getWriterName(), requestDto.getPassword(), requestDto.getTitle(), requestDto.getContents());
+        String writerName = requestDto.getWriterName();
+        String password = requestDto.getPassword();
+        String title = requestDto.getTitle();
+        String contents = requestDto.getContents();
+        return blogService.createPosting(writerName, password, title, contents);
     }
 
     @GetMapping("/postings")
@@ -31,23 +35,23 @@ public class BlogController {
         return blogService.getAllPostings();
     }
 
-    @GetMapping("/posting/id/{id}")
-    public PostingResponseDto getPostingById(@PathVariable Long id) {
+    @GetMapping("/posting/id")
+    public PostingResponseDto getPostingById(@RequestParam Long id) {
         return blogService.getPostingById(id);
     }
 
-    @GetMapping("/posting/writerName/{writerName}")
-    public List<PostingResponseDto> getPostingByWriterName(@PathVariable String writerName) {
+    @GetMapping("/posting/name")
+    public List<PostingResponseDto> getPostingByWriterName(@RequestParam String writerName) {
         return blogService.getPostingByWriterName(writerName);
     }
 
-    @PutMapping("/posting/{id}/{password}")
-    public String updatePosting(@PathVariable Long id, @PathVariable String password, @RequestBody UpdateRequestDto requestDto) {
+    @PutMapping("/posting/{id}")
+    public String updatePosting(@PathVariable Long id, @RequestParam String password, @RequestBody UpdateRequestDto requestDto) {
         return blogService.update(id, password, requestDto);
     }
 
-    @DeleteMapping("/posting/{id}/{password}")
-    public String deletePosting(@PathVariable Long id, @PathVariable String password) {
+    @DeleteMapping("/posting/{id}")
+    public String deletePosting(@PathVariable Long id, @RequestParam String password) {
         return blogService.deletePosting(id, password);
     }
 
