@@ -37,4 +37,8 @@ public class Posting extends TimeStamped{
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
     }
+
+    public boolean validPassword(String password) {
+        return password.equals(this.getPassword());
+    }
 }

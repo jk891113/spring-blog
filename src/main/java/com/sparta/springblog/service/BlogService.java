@@ -59,10 +59,14 @@ public class BlogService {
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 글입니다.")
         );
-        if (password.equals(posting.getPassword())) {
+        if (posting.validPassword(password)) {
             posting.update(requestDto);
             return "수정 완료";
         } return "비밀번호가 일치하지 않습니다.";
+//        if (password.equals(posting.getPassword())) {
+//            posting.update(requestDto);
+//            return "수정 완료";
+//        } return "비밀번호가 일치하지 않습니다.";
     }
 
     @Transactional
@@ -70,9 +74,13 @@ public class BlogService {
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 글입니다.")
         );
-        if (password.equals(posting.getPassword())) {
+        if (posting.validPassword(password)) {
             blogRepository.deleteById(id);
             return "삭제 완료";
         } return "비밀번호가 일치하지 않습니다.";
+//        if (password.equals(posting.getPassword())) {
+//            blogRepository.deleteById(id);
+//            return "삭제 완료";
+//        } return "비밀번호가 일치하지 않습니다.";
     }
 }
