@@ -2,6 +2,7 @@ package com.sparta.springblog.service;
 
 import com.sparta.springblog.entity.Posting;
 import com.sparta.springblog.repository.BlogRepository;
+import com.sparta.springblog.requestdto.PostingRequestDto;
 import com.sparta.springblog.requestdto.UpdateRequestDto;
 import com.sparta.springblog.responsedto.CreateResponseDto;
 import com.sparta.springblog.responsedto.PostingResponseDto;
@@ -17,8 +18,8 @@ import java.util.stream.Collectors;
 public class BlogService {
     private final BlogRepository blogRepository;
 
-    public CreateResponseDto createPosting(String writerName, String password, String title, String contents) {
-        Posting posting = new Posting(writerName, password, title, contents);
+    public CreateResponseDto createPosting(PostingRequestDto requestDto) {
+        Posting posting = new Posting(requestDto);
         blogRepository.save(posting);
         CreateResponseDto responseDto = new CreateResponseDto(posting);
         return responseDto;

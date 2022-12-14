@@ -23,11 +23,7 @@ public class BlogController {
 
     @PostMapping("/posting")
     public CreateResponseDto createPosting(@RequestBody PostingRequestDto requestDto) {
-        String writerName = requestDto.getWriterName();
-        String password = requestDto.getPassword();
-        String title = requestDto.getTitle();
-        String contents = requestDto.getContents();
-        return blogService.createPosting(writerName, password, title, contents);
+        return blogService.createPosting(requestDto);
     }
 
     @GetMapping("/postings")

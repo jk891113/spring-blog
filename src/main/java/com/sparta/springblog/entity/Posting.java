@@ -1,5 +1,6 @@
 package com.sparta.springblog.entity;
 
+import com.sparta.springblog.requestdto.PostingRequestDto;
 import com.sparta.springblog.requestdto.UpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,11 +26,11 @@ public class Posting extends TimeStamped{
     @Column(nullable = false)
     private String contents;
 
-    public Posting(String writerName, String password, String title, String contents) {
-        this.writerName = writerName;
-        this.password = password;
-        this.title = title;
-        this.contents = contents;
+    public Posting(PostingRequestDto requestDto) {
+        this.writerName = requestDto.getWriterName();
+        this.password = requestDto.getPassword();
+        this.title = requestDto.getTitle();
+        this.contents = requestDto.getContents();
     }
 
     public void update(UpdateRequestDto requestDto) {
