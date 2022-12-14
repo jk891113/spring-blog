@@ -40,7 +40,7 @@ public class BlogService {
                     () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
             );
 
-            Posting posting = new Posting(requestDto);
+            Posting posting = new Posting(requestDto, user);
             blogRepository.save(posting);
             CreateResponseDto responseDto = new CreateResponseDto(posting);
             return responseDto;
@@ -84,10 +84,11 @@ public class BlogService {
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 글입니다.")
         );
-        if (posting.validPassword(password)) {
+//        if (posting.validPassword(password)) {
             posting.update(requestDto);
             return "수정 완료";
-        } return "비밀번호가 일치하지 않습니다.";
+//        }
+//        return "비밀번호가 일치하지 않습니다.";
 //        if (password.equals(posting.getPassword())) {
 //            posting.update(requestDto);
 //            return "수정 완료";
@@ -99,10 +100,10 @@ public class BlogService {
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 글입니다.")
         );
-        if (posting.validPassword(password)) {
+//        if (posting.validPassword(password)) {
             blogRepository.deleteById(id);
             return "삭제 완료";
-        } return "비밀번호가 일치하지 않습니다.";
+//        } return "비밀번호가 일치하지 않습니다.";
 //        if (password.equals(posting.getPassword())) {
 //            blogRepository.deleteById(id);
 //            return "삭제 완료";

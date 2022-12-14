@@ -18,28 +18,19 @@ public class Posting extends TimeStamped{
     private String username;
 
     @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
     private String contents;
 
-    public Posting(PostingRequestDto requestDto) {
-        this.username = requestDto.getUsername();
-        this.password = requestDto.getPassword();
+    public Posting(PostingRequestDto requestDto, User user) {
+        this.username = user.getUsername();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
     }
 
     public void update(UpdateRequestDto requestDto) {
-        this.username = requestDto.getUsername();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
-    }
-
-    public boolean validPassword(String password) {
-        return password.equals(this.getPassword());
     }
 }
