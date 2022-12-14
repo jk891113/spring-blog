@@ -9,7 +9,7 @@ import lombok.Setter;
 public class CreateResponseDto {
     private Long id;
     private String title;
-    private String writerName;
+    private String username;
     private String password;
     private String contents;
 
@@ -17,7 +17,7 @@ public class CreateResponseDto {
         this.id = posting.getId();
         this.title = posting.getTitle();
         this.password = posting.getPassword();
-        this.writerName = posting.getWriterName();
+        this.username = posting.getUsername();
         this.contents = posting.getContents();
     }
 }

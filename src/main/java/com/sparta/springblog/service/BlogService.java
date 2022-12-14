@@ -68,8 +68,8 @@ public class BlogService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostingResponseDto> getPostingByWriterName(String writerName) {
-        List<Posting> postingList = blogRepository.getPostingByWriterName(writerName);
+    public List<PostingResponseDto> getPostingByUsername(String username) {
+        List<Posting> postingList = blogRepository.getPostingByUsername(username);
         List<PostingResponseDto> responseDtoList = postingList.stream().map(posting -> new PostingResponseDto(posting)).collect(Collectors.toList());
 //        List<PostingResponseDto> responseDtoList = new ArrayList<>();
 //        for (Posting posting : postingList) {

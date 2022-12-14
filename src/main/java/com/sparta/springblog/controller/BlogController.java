@@ -38,8 +38,8 @@ public class BlogController {
     }
 
     @GetMapping("/posting/name")
-    public List<PostingResponseDto> getPostingByWriterName(@RequestParam String writerName) {
-        return blogService.getPostingByWriterName(writerName);
+    public List<PostingResponseDto> getPostingByUsername(@RequestParam String username) {
+        return blogService.getPostingByUsername(username);
     }
 
     @PutMapping("/posting/{id}")

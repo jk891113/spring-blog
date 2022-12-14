@@ -13,7 +13,7 @@ public class PostingResponseDto {
     private LocalDateTime modifiedAt;
     private Long id;
     private String title;
-    private String writerName;
+    private String username;
     private String contents;
 
     public PostingResponseDto(Posting posting) {
@@ -21,7 +21,7 @@ public class PostingResponseDto {
         this.modifiedAt = posting.getModifiedAt();
         this.id = posting.getId();
         this.title = posting.getTitle();
-        this.writerName = posting.getWriterName();
+        this.username = posting.gerUsername();
         this.contents = posting.getContents();
     }
 }
