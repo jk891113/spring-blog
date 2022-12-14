@@ -5,6 +5,7 @@ import com.sparta.springblog.requestdto.PostingRequestDto;
 import com.sparta.springblog.responsedto.PostingResponseDto;
 import com.sparta.springblog.requestdto.UpdateRequestDto;
 import com.sparta.springblog.service.BlogService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,8 +23,8 @@ public class BlogController {
     }
 
     @PostMapping("/posting")
-    public CreateResponseDto createPosting(@RequestBody PostingRequestDto requestDto) {
-        return blogService.createPosting(requestDto);
+    public CreateResponseDto createPosting(@RequestBody PostingRequestDto requestDto, HttpServletRequest request) {
+        return blogService.createPosting(requestDto, request);
     }
 
     @GetMapping("/postings")

@@ -1,11 +1,16 @@
 package com.sparta.springblog.service;
 
 import com.sparta.springblog.entity.Posting;
+import com.sparta.springblog.entity.User;
+import com.sparta.springblog.jwt.JwtUtil;
 import com.sparta.springblog.repository.BlogRepository;
+import com.sparta.springblog.repository.UserRepository;
 import com.sparta.springblog.requestdto.PostingRequestDto;
 import com.sparta.springblog.requestdto.UpdateRequestDto;
 import com.sparta.springblog.responsedto.CreateResponseDto;
 import com.sparta.springblog.responsedto.PostingResponseDto;
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,12 +22,31 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BlogService {
     private final BlogRepository blogRepository;
+    private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
 
-    public CreateResponseDto createPosting(PostingRequestDto requestDto) {
-        Posting posting = new Posting(requestDto);
-        blogRepository.save(posting);
-        CreateResponseDto responseDto = new CreateResponseDto(posting);
-        return responseDto;
+    public CreateResponseDto createPosting(PostingRequestDto requestDto, HttpServletRequest request) {
+        String token = jwtUtil.resolveToken(request);
+        Claims claims;
+
+        if (token != null) {
+            if (jwtUtil.validateToken(token)) {
+                claims = jwtUtil.getUserInfoFromToken(token);
+            } else {
+                throw new IllegalArgumentException("Token Error");
+            }
+
+            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
+                    () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+            );
+
+            Posting posting = new Posting(requestDto);
+            blogRepository.save(posting);
+            CreateResponseDto responseDto = new CreateResponseDto(posting);
+            return responseDto;
+        } else {
+            return null;
+        }
     }
 
     @Transactional(readOnly = true)
