@@ -43,13 +43,13 @@ public class BlogController {
     }
 
     @PutMapping("/posting/{id}")
-    public String updatePosting(@PathVariable Long id, @RequestParam String password, @RequestBody UpdateRequestDto requestDto) {
-        return blogService.update(id, password, requestDto);
+    public String updatePosting(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto, HttpServletRequest request) {
+        return blogService.update(id, requestDto, request);
     }
 
     @DeleteMapping("/posting/{id}")
-    public String deletePosting(@PathVariable Long id, @RequestParam String password) {
-        return blogService.deletePosting(id, password);
+    public String deletePosting(@PathVariable Long id, HttpServletRequest request) {
+        return blogService.deletePosting(id, request);
     }
 
 }

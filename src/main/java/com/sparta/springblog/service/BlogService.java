@@ -80,26 +80,53 @@ public class BlogService {
     }
 
     @Transactional
-    public String update(Long id, String password, UpdateRequestDto requestDto) {
-        Posting posting = blogRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 글입니다.")
-        );
-//        if (posting.validPassword(password)) {
+    public String update(Long id, UpdateRequestDto requestDto, HttpServletRequest request) {
+        String token = jwtUtil.resolveToken(request);
+        Claims claims;
+
+        if (token != null) {
+            if (jwtUtil.validateToken(token)) {
+                claims = jwtUtil.getUserInfoFromToken(token);
+            } else {
+                throw new IllegalArgumentException("Token Error");
+            }
+
+            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
+                    () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+            );
+
+            Posting posting = blogRepository.findById(id).orElseThrow(
+                    () -> new IllegalArgumentException("존재하지 않는 글입니다.")
+            );
+
+            if (!user.getUsername().equals(posting.getUsername())) {
+                throw new IllegalArgumentException("본인이 작성한 게시글만 삭제할 수 있습니다.");
+            }
+
             posting.update(requestDto);
             return "수정 완료";
+        } else {
+            return null;
+        }
+    }
+
+
+//        if (posting.validPassword(password)) {
+//            posting.update(requestDto);
+//            return "수정 완료";
 //        }
 //        return "비밀번호가 일치하지 않습니다.";
 //        if (password.equals(posting.getPassword())) {
 //            posting.update(requestDto);
 //            return "수정 완료";
 //        } return "비밀번호가 일치하지 않습니다.";
-    }
+//    }
 
-    @Transactional
-    public String deletePosting(Long id, String password) {
-        Posting posting = blogRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 글입니다.")
-        );
+        @Transactional
+        public String deletePosting (Long id, HttpServletRequest request){
+            Posting posting = blogRepository.findById(id).orElseThrow(
+                    () -> new IllegalArgumentException("존재하지 않는 글입니다.")
+            );
 //        if (posting.validPassword(password)) {
             blogRepository.deleteById(id);
             return "삭제 완료";
@@ -108,5 +135,5 @@ public class BlogService {
 //            blogRepository.deleteById(id);
 //            return "삭제 완료";
 //        } return "비밀번호가 일치하지 않습니다.";
+        }
     }
-}
