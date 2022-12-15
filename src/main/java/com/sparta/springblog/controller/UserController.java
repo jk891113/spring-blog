@@ -6,8 +6,14 @@ import com.sparta.springblog.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.nio.charset.Charset;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,8 +28,11 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public void signup(@RequestBody @Valid SignupRequestDto requestDto) {
+    public ResponseEntity signup(@RequestBody @Valid SignupRequestDto requestDto) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         userService.signup(requestDto);
+        return ResponseEntity.ok().headers(headers).body("success");
     }
 
     @GetMapping("/login")
@@ -32,7 +41,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public void login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response) {
+    public ResponseEntity login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response) {
         userService.login(requestDto, response);
+        return new ResponseEntity("success", HttpStatus.OK);
     }
 }

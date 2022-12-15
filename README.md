@@ -5,7 +5,7 @@ ___
 [![My Skills](https://skillicons.dev/icons?i=java,spring,idea,git,github)](https://skillicons.dev)
 ___
 ### 주의사항
-     - Entity를 그대로 반환하지 말고, DTO에 담아서 반환
+- Entity를 그대로 반환하지 말고, DTO에 담아서 반환
 ___
 ## 요구사항
 ### 1. 아래의 요구사항을 기반으로 Use Case 그려보기
@@ -28,14 +28,14 @@ ___
 ___
 ## API 명세서
 
-| 기능                | Method | URL           | Request                                        | Response                                                       |
-|-------------------|--------|---------------|------------------------------------------------|----------------------------------------------------------------|
-| 게시글 생성            | POST   | /posting      | title<br/>contents<br/>writerName<br/>password | title<br/>writerName<br/>password<br/>contents                 |
-| 전체 게시글 조회         | GET    | /postings     | -                                              | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
-| 게시글 조회 (id)       | GET    | /posting/id   | -                                              | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
-| 게시글 조회 (username) | GET    | /posting/name | -                                              | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
-| 게시글 수정            | PUT    | /posting/{id} | title2<br/>contents2<br/>writerName2           |                                                                |
-| 게시글 삭제            | DELETE | /posting/{id} | -                                              |                                                                |
+| 기능                    | Method   | URL           | Request                                        | Response                                                       |
+|-----------------------|----------|---------------|------------------------------------------------|----------------------------------------------------------------|
+| 게시글 생성                | `POST`   | /posting      | title<br/>contents<br/>writerName<br/>password | title<br/>writerName<br/>password<br/>contents                 |
+| 전체 게시글 조회             | `GET`    | /postings     | -                                              | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
+| 게시글 조회<br/>(id)       | `GET`    | /posting/id   | -                                              | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
+| 게시글 조회<br/>(username) | `GET`    | /posting/name | -                                              | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
+| 게시글 수정                | `PUT`    | /posting/{id} | title2<br/>contents2<br/>writerName2           |                                                                |
+| 게시글 삭제                | `DELETE` | /posting/{id} | -                                              |                                                                |
 
 ___
 
@@ -89,19 +89,19 @@ ___
 
 ### 유저 API
 
-| 기능   | Method | URL          | Request               | Response |
-|------|--------|--------------|-----------------------|----------|
-| 회원가입 | POST   | /user/signup | username<br/>password |          |
-| 로그인  | POST   | /user/login  | username<br/>password |          |
+| 기능   | Method | URL          | Request               | Request<br/>Header | Response | Response<br/>Header |
+|------|--------|--------------|-----------------------|--------------------|----------|---------------------|
+| 회원가입 | `POST` | /user/signup | username<br/>password |                    |          |                     |
+| 로그인  | `POST` | /user/login  | username<br/>password |                    |          | Authorization : jwt |
 <br>
 
 ### 블로그 API
 
-| 기능                    | Method | URL           | Request            | Response                                                           |
-|-----------------------|--------|---------------|--------------------|--------------------------------------------------------------------|
-| 게시글 작성                | POST   | /posting      | title<br/>contents | id<br/>title<br/>username<br/>contents                             |
-| 전체 게시글 조회             | GET    | /postings     | -                  | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |
-| 게시글 조회<br/>(id)       | GET    | /posting/id   | id                 | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |
-| 게시글 조회<br/>(username) | GET    | /posting/name | username           | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |
-| 게시글 수정                | PUT    | /posting/{id} | title<br/>contents | id<br/>title<br/>username<br/>contents                             |
-| 게시글 삭제                | DELETE | /posting/{id} | -                  | -                                                                  |
+| 기능                    | Method   | URL           | Request            | Request<br/>Header  | Response                                                           | Response<br/>Header |
+|-----------------------|----------|---------------|--------------------|---------------------|--------------------------------------------------------------------|---------------------|
+| 게시글 작성                | `POST`   | /posting      | title<br/>contents | Authorization : jwt | id<br/>title<br/>username<br/>contents                             |                     |
+| 전체 게시글 조회             | `GET`    | /postings     | -                  |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |                     |
+| 게시글 조회<br/>(id)       | `GET`    | /posting/id   | id                 |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |                     |
+| 게시글 조회<br/>(username) | `GET`    | /posting/name | username           |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |                     |
+| 게시글 수정                | `PUT`    | /posting/{id} | title<br/>contents | Authorization : jwt | id<br/>title<br/>username<br/>contents                             |                     |
+| 게시글 삭제                | `DELETE` | /posting/{id} | -                  | Authorization : jwt | -                                                                  |                     |
