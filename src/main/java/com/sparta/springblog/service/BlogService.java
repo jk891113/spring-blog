@@ -100,7 +100,7 @@ public class BlogService {
             );
 
             if (!user.getUsername().equals(posting.getUsername())) {
-                throw new IllegalArgumentException("본인이 작성한 게시글만 삭제할 수 있습니다.");
+                throw new IllegalArgumentException("본인이 작성한 게시글만 수정할 수 있습니다.");
             }
 
             posting.update(requestDto);
@@ -124,12 +124,37 @@ public class BlogService {
 
         @Transactional
         public String deletePosting (Long id, HttpServletRequest request){
-            Posting posting = blogRepository.findById(id).orElseThrow(
-                    () -> new IllegalArgumentException("존재하지 않는 글입니다.")
-            );
+            String token = jwtUtil.resolveToken(request);
+            Claims claims;
+
+            if (token != null) {
+                if (jwtUtil.validateToken(token)) {
+                    claims = jwtUtil.getUserInfoFromToken(token);
+                } else {
+                    throw new IllegalArgumentException("Token Error");
+                }
+
+                User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
+                        () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+                );
+
+                Posting posting = blogRepository.findById(id).orElseThrow(
+                        () -> new IllegalArgumentException("존재하지 않는 글입니다.")
+                );
+
+                if (!user.getUsername().equals(posting.getUsername())) {
+                    throw new IllegalArgumentException("본인이 작성한 게시글만 삭제할 수 있습니다.");
+                }
+
+                blogRepository.deleteById(id);
+                return "삭제 완료";
+            } else {
+                return null;
+            }
+
 //        if (posting.validPassword(password)) {
-            blogRepository.deleteById(id);
-            return "삭제 완료";
+//            blogRepository.deleteById(id);
+//            return "삭제 완료";
 //        } return "비밀번호가 일치하지 않습니다.";
 //        if (password.equals(posting.getPassword())) {
 //            blogRepository.deleteById(id);
