@@ -22,7 +22,7 @@ public class BlogController {
         return new ModelAndView();
     }
 
-    @PostMapping("/posting")
+    @PostMapping("/postings")
     public CreateResponseDto createPosting(@RequestBody PostingRequestDto requestDto, HttpServletRequest request) {
         return blogService.createPosting(requestDto, request);
     }
@@ -32,22 +32,22 @@ public class BlogController {
         return blogService.getAllPostings();
     }
 
-    @GetMapping("/posting/id")
+    @GetMapping("/postings")
     public PostingResponseDto getPostingById(@RequestParam Long id) {
         return blogService.getPostingById(id);
     }
 
-    @GetMapping("/posting/name")
+    @GetMapping("/postings")
     public List<PostingResponseDto> getPostingByUsername(@RequestParam String username) {
         return blogService.getPostingByUsername(username);
     }
 
-    @PutMapping("/posting/{id}")
+    @PutMapping("/postings/{id}")
     public String updatePosting(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto, HttpServletRequest request) {
         return blogService.update(id, requestDto, request);
     }
 
-    @DeleteMapping("/posting/{id}")
+    @DeleteMapping("/postings/{id}")
     public String deletePosting(@PathVariable Long id, HttpServletRequest request) {
         return blogService.deletePosting(id, request);
     }
