@@ -2,7 +2,7 @@
 
 ## 블로그 백엔드 서버 만들기
 ___
-[![My Skills](https://skillicons.dev/icons?i=java,idea,git,github)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=java,spring,idea,git,github)](https://skillicons.dev)
 ___
 ### 주의사항
      - Entity를 그대로 반환하지 말고, DTO에 담아서 반환
@@ -28,14 +28,14 @@ ___
 ___
 ## API 명세서
 
-|                        | Method | URL                      | Request                                                                                      | Response                                                                                                                          |
-|------------------------|--------|--------------------------|----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
-| CreatePosting          | Post   | /posting                 | title<br/>contents<br/>writerName<br/>password | title<br/>writerName<br/>password<br/>contents                  |
-| getAllPosting          | GET    | /postings                | -                                                                                            | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
-| getPostingById         | GET    | /posting/id/{id}         | -                                                                                            | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
-| getPostingByWriterName | GET    | /posting/writerName/{writerName} | -                                                                                            | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
-| updatePosting          | PUT    | /posting/{id}/{password} | title2<br/>contents2<br/>writerName2 |                                                                                                                                   |
-| deletePosting          | DELETE | /posting/{id}/{password} |                                                                                              |                                                                                                                                   |
+| 기능                | Method | URL           | Request                                        | Response                                                       |
+|-------------------|--------|---------------|------------------------------------------------|----------------------------------------------------------------|
+| 게시글 생성            | POST   | /posting      | title<br/>contents<br/>writerName<br/>password | title<br/>writerName<br/>password<br/>contents                 |
+| 전체 게시글 조회         | GET    | /postings     | -                                              | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
+| 게시글 조회 (id)       | GET    | /posting/id   | -                                              | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
+| 게시글 조회 (username) | GET    | /posting/name | -                                              | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
+| 게시글 수정            | PUT    | /posting/{id} | title2<br/>contents2<br/>writerName2           |                                                                |
+| 게시글 삭제            | DELETE | /posting/{id} | -                                              |                                                                |
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 ___
 
-## 주의사항
+### 주의사항
 - 요구사항에 맞게 추가되어야 하는 Entity를 설계하고 ERD를 만들어 볼 것
 - 입문 강의 개인 과제에 회원가입, 로그인 기능을 추가하고 기존 요구사항의 일부를 변경
 
@@ -86,3 +86,22 @@ ___
 ___
 
 ## API 명세서
+
+### 유저 API
+
+| 기능   | Method | URL          | Request               | Response |
+|------|--------|--------------|-----------------------|----------|
+| 회원가입 | POST   | /user/signup | username<br/>password |          |
+| 로그인  | POST   | /user/login  | username<br/>password |          |
+<br>
+
+### 블로그 API
+
+| 기능                    | Method | URL           | Request            | Response                                                           |
+|-----------------------|--------|---------------|--------------------|--------------------------------------------------------------------|
+| 게시글 작성                | POST   | /posting      | title<br/>contents | id<br/>title<br/>username<br/>contents                             |
+| 전체 게시글 조회             | GET    | /postings     | -                  | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |
+| 게시글 조회<br/>(id)       | GET    | /posting/id   | id                 | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |
+| 게시글 조회<br/>(username) | GET    | /posting/name | username           | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |
+| 게시글 수정                | PUT    | /posting/{id} | title<br/>contents | id<br/>title<br/>username<br/>contents                             |
+| 게시글 삭제                | DELETE | /posting/{id} | -                  | -                                                                  |
