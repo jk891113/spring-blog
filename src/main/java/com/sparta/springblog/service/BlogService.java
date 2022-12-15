@@ -69,7 +69,7 @@ public class BlogService {
 
     @Transactional(readOnly = true)
     public List<PostingResponseDto> getPostingByUsername(String username) {
-        List<Posting> postingList = blogRepository.getPostingByUsername(username);
+        List<Posting> postingList = blogRepository.getPostingByUserUsername(username);
         List<PostingResponseDto> responseDtoList = postingList.stream().map(posting -> new PostingResponseDto(posting)).collect(Collectors.toList());
 //        List<PostingResponseDto> responseDtoList = new ArrayList<>();
 //        for (Posting posting : postingList) {
@@ -99,7 +99,7 @@ public class BlogService {
                     () -> new IllegalArgumentException("존재하지 않는 글입니다.")
             );
 
-            if (!user.getUsername().equals(posting.getUsername())) {
+            if (!user.getUsername().equals(posting.getUser().getUsername())) {
                 throw new IllegalArgumentException("본인이 작성한 게시글만 수정할 수 있습니다.");
             }
 
@@ -130,7 +130,7 @@ public class BlogService {
                     () -> new IllegalArgumentException("존재하지 않는 글입니다.")
             );
 
-            if (!user.getUsername().equals(posting.getUsername())) {
+            if (!user.getUsername().equals(posting.getUser().getUsername())) {
                 throw new IllegalArgumentException("본인이 작성한 게시글만 삭제할 수 있습니다.");
             }
 

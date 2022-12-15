@@ -21,7 +21,7 @@ public class PostingResponseDto {
         this.modifiedAt = posting.getModifiedAt();
         this.id = posting.getId();
         this.title = posting.getTitle();
-        this.username = posting.getUsername();
+        this.username = posting.getUser().getUsername();
         this.contents = posting.getContents();
     }
 }

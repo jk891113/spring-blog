@@ -15,16 +15,17 @@ public class Posting extends TimeStamped{
     private Long id;
 
     @Column(nullable = false)
-    private String username;
-
-    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
     private String contents;
 
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private User user;
+
     public Posting(PostingRequestDto requestDto, User user) {
-        this.username = user.getUsername();
+        this.user = user;
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
     }

@@ -15,7 +15,7 @@ public class CreateResponseDto {
     public CreateResponseDto(Posting posting) {
         this.id = posting.getId();
         this.title = posting.getTitle();
-        this.username = posting.getUsername();
+        this.username = posting.getUser().getUsername();
         this.contents = posting.getContents();
     }
 }
