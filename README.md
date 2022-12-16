@@ -38,6 +38,15 @@ ___
 | 게시글 삭제                | `DELETE` | /posting/{id} | -                                              |                                                                |
 
 ___
+<br>
+<br>
+<br>
+----------------------------------------------------------여백----------------------------------------------------------
+<br>
+<br>
+<br>
+
+---
 
 # Spring 숙련 강의 개인과제 Lv.1
 
@@ -89,20 +98,30 @@ ___
 
 | 기능                    | Method   | URL            | Request               | Request<br/>Header  | Response                                                           | Response<br/>Header |
 |-----------------------|----------|----------------|-----------------------|---------------------|--------------------------------------------------------------------|---------------------|
-| 회원가입                  | `POST`   | /user/signup   | username<br/>password |                     |                                                                    |                     |
-| 로그인                   | `POST`   | /user/login    | username<br/>password |                     |                                                                    | Authorization : jwt |
-| 게시글 작성                | `POST`   | /postings      | title<br/>contents    | Authorization : jwt | id<br/>title<br/>username<br/>contents                             |                     |
-| 전체 게시글 조회             | `GET`    | /postings      | -                     |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |                     |
-| 게시글 조회<br/>(id)       | `GET`    | /postings/id   | id                    |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |                     |
-| 게시글 조회<br/>(username) | `GET`    | /postings/name | username              |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |                     |
-| 게시글 수정                | `PUT`    | /postings/{id} | title<br/>contents    | Authorization : jwt | id<br/>title<br/>username<br/>contents                             |                     |
-| 게시글 삭제                | `DELETE` | /postings/{id} | -                     | Authorization : jwt | -                                                                  |                     |
+| 회원가입                  | `POST`   | /user/signup   | username<br/>password | -                   | status<br/>message                                                 | -                   |
+| 로그인                   | `POST`   | /user/login    | username<br/>password | -                   | status<br/>message                                                 | Authorization : jwt |
+| 게시글 작성                | `POST`   | /postings      | title<br/>contents    | Authorization : jwt | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents | -                   |
+| 전체 게시글 조회             | `GET`    | /postings      | -                     | -                   | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents | -                   |
+| 게시글 조회<br/>(id)       | `GET`    | /postings/id   | id                    | -                   | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents | -                   |
+| 게시글 조회<br/>(username) | `GET`    | /postings/name | username              | -                   | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents | -                   |
+| 게시글 수정                | `PUT`    | /postings/{id} | title<br/>contents    | Authorization : jwt | id<br/>title<br/>username<br/>contents                             | -                   |
+| 게시글 삭제                | `DELETE` | /postings/{id} | -                     | Authorization : jwt | status<br/>message                                                 | -                   |
 
 ___
 
 ## ERD
 ![](/Users/han/Desktop/스크린샷 2022-12-16 오전 9.05.41.png)
 ___
+
+<br>
+<br>
+<br>
+----------------------------------------------------------여백----------------------------------------------------------
+<br>
+<br>
+<br>
+
+---
 
 # Sprign 숙련 강의 과제 Lv.2
 
@@ -175,15 +194,16 @@ ___
 ## API 명세서
 | 기능                    | Method   | URL            | Request               | Request<br/>Header  | Response                                                           | Response<br/>Header |
 |-----------------------|----------|----------------|-----------------------|---------------------|--------------------------------------------------------------------|---------------------|
-| 회원가입                  | `POST`   | /user/signup   | username<br/>password |                     |                                                                    |                     |
-| 로그인                   | `POST`   | /user/login    | username<br/>password |                     |                                                                    | Authorization : jwt |
+| 회원가입                  | `POST`   | /user/signup   | username<br/>password |                     | status<br/>message                                                 |                     |
+| 로그인                   | `POST`   | /user/login    | username<br/>password |                     | status<br/>message                                                 | Authorization : jwt |
 | 게시글 작성                | `POST`   | /postings      | title<br/>contents    | Authorization : jwt | id<br/>title<br/>username<br/>contents                             |                     |
 | 전체 게시글 조회             | `GET`    | /postings      | -                     |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |                     |
 | 게시글 조회<br/>(id)       | `GET`    | /postings/id   | id                    |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |                     |
 | 게시글 조회<br/>(username) | `GET`    | /postings/name | username              |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |                     |
 | 게시글 수정                | `PUT`    | /postings/{id} | title<br/>contents    | Authorization : jwt | id<br/>title<br/>username<br/>contents                             |                     |
-| 게시글 삭제                | `DELETE` | /postings/{id} | -                     | Authorization : jwt | -                                                                  |                     |
+| 게시글 삭제                | `DELETE` | /postings/{id} | -                     | Authorization : jwt | status<br/>message                                                 |                     |
 | 댓글 작성                 | `POST`   | /comments/{id} |                       |                     |                                                                    |                     |
 | 댓글 수정                 | `PUT`    | /comments/{id} |                       |                     |                                                                    |                     |
 | 댓글 삭제                 | `DELETE` | /comments/{id} |                       |                     |                                                                    |                     |
 
+## ERD

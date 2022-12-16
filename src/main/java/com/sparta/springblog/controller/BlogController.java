@@ -49,7 +49,7 @@ public class BlogController {
     }
 
     @PutMapping("/postings/{id}")
-    public String updatePosting(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto, HttpServletRequest request) {
+    public PostingResponseDto updatePosting(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto, HttpServletRequest request) {
         return blogService.update(id, requestDto, request);
     }
 
@@ -64,5 +64,4 @@ public class BlogController {
         blogService.deletePosting(id, request);
         return new ResponseEntity<>(responseDto, headers, HttpStatus.OK);
     }
-
 }

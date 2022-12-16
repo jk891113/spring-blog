@@ -7,11 +7,9 @@ import lombok.Data;
 public class StatusResponseDto {
     private StatusEnum status;
     private String message;
-    private Object data;
 
     public StatusResponseDto() {
         this.status = StatusEnum.BAD_REQUEST;
         this.message = null;
-        this.data = null;
     }
 }

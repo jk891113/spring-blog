@@ -28,6 +28,20 @@ public class BlogService {
         String token = jwtUtil.resolveToken(request);
         Claims claims;
 
+//        if (token == null) {
+//            throw new IllegalArgumentException("로그인 후 작성 가능");
+//        }
+//        if (!jwtUtil.validateToken(token)) {
+//            throw new IllegalArgumentException("Token Error");
+//        }
+//        claims = jwtUtil.getUserInfoFromToken(token);
+//        User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
+//                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+//        );
+//        Posting posting = new Posting(requestDto, user);
+//        blogRepository.save(posting);
+//        return new PostingResponseDto(posting);
+//
         if (token != null) {
             if (jwtUtil.validateToken(token)) {
                 claims = jwtUtil.getUserInfoFromToken(token);
@@ -41,8 +55,7 @@ public class BlogService {
 
             Posting posting = new Posting(requestDto, user);
             blogRepository.save(posting);
-            PostingResponseDto responseDto = new PostingResponseDto(posting);
-            return responseDto;
+            return new PostingResponseDto(posting);
         } else {
             return null;
         }
@@ -52,11 +65,7 @@ public class BlogService {
     public List<PostingResponseDto> getAllPostings() {
         List<Posting> postingList = blogRepository.getAllByOrderByModifiedAtDesc();
         List<PostingResponseDto> responseDtoList = postingList.stream().map(posting -> new PostingResponseDto(posting)).collect(Collectors.toList());
-//        List<PostingResponseDto> responseDtoList = new ArrayList<>();
-//        for (Posting posting : postingList) {
-//            PostingResponseDto responseDto = new PostingResponseDto(posting);
-//            responseDtoList.add(responseDto);
-//        }
+
         return responseDtoList;
     }
 
@@ -72,16 +81,12 @@ public class BlogService {
     public List<PostingResponseDto> getPostingByUsername(String username) {
         List<Posting> postingList = blogRepository.findByUserUsername(username);
         List<PostingResponseDto> responseDtoList = postingList.stream().map(posting -> new PostingResponseDto(posting)).collect(Collectors.toList());
-//        List<PostingResponseDto> responseDtoList = new ArrayList<>();
-//        for (Posting posting : postingList) {
-//            PostingResponseDto responseDto = new PostingResponseDto(posting);
-//            responseDtoList.add(responseDto);
-//        }
+
         return responseDtoList;
     }
 
     @Transactional
-    public String update(Long id, UpdateRequestDto requestDto, HttpServletRequest request) {
+    public PostingResponseDto update(Long id, UpdateRequestDto requestDto, HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
         Claims claims;
 
@@ -105,14 +110,15 @@ public class BlogService {
             }
 
             posting.update(requestDto);
-            return "수정 완료";
+            PostingResponseDto responseDto = new PostingResponseDto(posting);
+            return responseDto;
         } else {
             return null;
         }
     }
 
     @Transactional
-    public String deletePosting(Long id, HttpServletRequest request) {
+    public void deletePosting(Long id, HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
         Claims claims;
 
@@ -136,9 +142,6 @@ public class BlogService {
             }
 
             blogRepository.deleteById(id);
-            return "삭제 완료";
-        } else {
-            return null;
         }
     }
 }
