@@ -7,7 +7,6 @@ import com.sparta.springblog.repository.BlogRepository;
 import com.sparta.springblog.repository.UserRepository;
 import com.sparta.springblog.requestdto.PostingRequestDto;
 import com.sparta.springblog.requestdto.UpdateRequestDto;
-import com.sparta.springblog.responsedto.CreateResponseDto;
 import com.sparta.springblog.responsedto.PostingResponseDto;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +24,7 @@ public class BlogService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
-    public CreateResponseDto createPosting(PostingRequestDto requestDto, HttpServletRequest request) {
+    public PostingResponseDto createPosting(PostingRequestDto requestDto, HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
         Claims claims;
 
@@ -42,7 +41,7 @@ public class BlogService {
 
             Posting posting = new Posting(requestDto, user);
             blogRepository.save(posting);
-            CreateResponseDto responseDto = new CreateResponseDto(posting);
+            PostingResponseDto responseDto = new PostingResponseDto(posting);
             return responseDto;
         } else {
             return null;

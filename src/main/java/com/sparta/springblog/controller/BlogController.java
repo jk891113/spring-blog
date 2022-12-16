@@ -1,10 +1,9 @@
 package com.sparta.springblog.controller;
 
 import com.sparta.springblog.enums.StatusEnum;
-import com.sparta.springblog.responsedto.CreateResponseDto;
 import com.sparta.springblog.requestdto.PostingRequestDto;
-import com.sparta.springblog.responsedto.PostingResponseDto;
 import com.sparta.springblog.requestdto.UpdateRequestDto;
+import com.sparta.springblog.responsedto.PostingResponseDto;
 import com.sparta.springblog.responsedto.StatusResponseDto;
 import com.sparta.springblog.service.BlogService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +29,7 @@ public class BlogController {
     }
 
     @PostMapping("/postings")
-    public CreateResponseDto createPosting(@RequestBody PostingRequestDto requestDto, HttpServletRequest request) {
+    public PostingResponseDto createPosting(@RequestBody PostingRequestDto requestDto, HttpServletRequest request) {
         return blogService.createPosting(requestDto, request);
     }
 
