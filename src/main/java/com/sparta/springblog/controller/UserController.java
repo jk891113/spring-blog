@@ -1,7 +1,9 @@
 package com.sparta.springblog.controller;
 
+import com.sparta.springblog.enums.StatusEnum;
 import com.sparta.springblog.requestdto.LoginRequestDto;
 import com.sparta.springblog.requestdto.SignupRequestDto;
+import com.sparta.springblog.responsedto.StatusResponseDto;
 import com.sparta.springblog.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -28,11 +30,15 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody @Valid SignupRequestDto requestDto) {
+    public ResponseEntity<StatusResponseDto> signup(@RequestBody @Valid SignupRequestDto requestDto) {
+        StatusResponseDto responseDto = new StatusResponseDto();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        responseDto.setStatus(StatusEnum.CREATED);
+        responseDto.setMessage("회원가입 완료");
+
         userService.signup(requestDto);
-        return ResponseEntity.ok().headers(headers).body("success");
+        return new ResponseEntity<>(responseDto, headers, HttpStatus.CREATED);
     }
 
     @GetMapping("/login")
@@ -41,8 +47,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response) {
+    public ResponseEntity<StatusResponseDto> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response) {
+        StatusResponseDto responseDto = new StatusResponseDto();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        responseDto.setStatus(StatusEnum.OK);
+        responseDto.setMessage("로그인 성공");
+
         userService.login(requestDto, response);
-        return new ResponseEntity("success", HttpStatus.OK);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }

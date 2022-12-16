@@ -63,13 +63,15 @@ public class BlogService {
 
     @Transactional(readOnly = true)
     public PostingResponseDto getPostingById(Long id) {
-        Posting posting = blogRepository.getPostingById(id);
+        Posting posting = blogRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
+        );
         return new PostingResponseDto(posting);
     }
 
     @Transactional(readOnly = true)
     public List<PostingResponseDto> getPostingByUsername(String username) {
-        List<Posting> postingList = blogRepository.getPostingByUserUsername(username);
+        List<Posting> postingList = blogRepository.findByUserUsername(username);
         List<PostingResponseDto> responseDtoList = postingList.stream().map(posting -> new PostingResponseDto(posting)).collect(Collectors.toList());
 //        List<PostingResponseDto> responseDtoList = new ArrayList<>();
 //        for (Posting posting : postingList) {
@@ -96,7 +98,7 @@ public class BlogService {
             );
 
             Posting posting = blogRepository.findById(id).orElseThrow(
-                    () -> new IllegalArgumentException("존재하지 않는 글입니다.")
+                    () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
             );
 
             if (!user.getUsername().equals(posting.getUser().getUsername())) {
@@ -127,7 +129,7 @@ public class BlogService {
             );
 
             Posting posting = blogRepository.findById(id).orElseThrow(
-                    () -> new IllegalArgumentException("존재하지 않는 글입니다.")
+                    () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
             );
 
             if (!user.getUsername().equals(posting.getUser().getUsername())) {

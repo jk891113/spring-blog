@@ -1,15 +1,22 @@
 package com.sparta.springblog.controller;
 
+import com.sparta.springblog.enums.StatusEnum;
 import com.sparta.springblog.responsedto.CreateResponseDto;
 import com.sparta.springblog.requestdto.PostingRequestDto;
 import com.sparta.springblog.responsedto.PostingResponseDto;
 import com.sparta.springblog.requestdto.UpdateRequestDto;
+import com.sparta.springblog.responsedto.StatusResponseDto;
 import com.sparta.springblog.service.BlogService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 @RestController
@@ -32,12 +39,12 @@ public class BlogController {
         return blogService.getAllPostings();
     }
 
-    @GetMapping("/postings")
+    @GetMapping("/postings/id")
     public PostingResponseDto getPostingById(@RequestParam Long id) {
         return blogService.getPostingById(id);
     }
 
-    @GetMapping("/postings")
+    @GetMapping("/postings/name")
     public List<PostingResponseDto> getPostingByUsername(@RequestParam String username) {
         return blogService.getPostingByUsername(username);
     }
@@ -48,8 +55,15 @@ public class BlogController {
     }
 
     @DeleteMapping("/postings/{id}")
-    public String deletePosting(@PathVariable Long id, HttpServletRequest request) {
-        return blogService.deletePosting(id, request);
+    public ResponseEntity<StatusResponseDto> deletePosting(@PathVariable Long id, HttpServletRequest request) {
+        StatusResponseDto responseDto = new StatusResponseDto();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        responseDto.setStatus(StatusEnum.OK);
+        responseDto.setMessage("삭제 성공");
+
+        blogService.deletePosting(id, request);
+        return new ResponseEntity<>(responseDto, headers, HttpStatus.OK);
     }
 
 }
