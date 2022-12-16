@@ -206,4 +206,6 @@ ___
 | 댓글 수정                 | `PUT`    | /comments/{id} |                       |                     |                                                                    |                     |
 | 댓글 삭제                 | `DELETE` | /comments/{id} |                       |                     |                                                                    |                     |
 
+---
+
 ## ERD

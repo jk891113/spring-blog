@@ -1,6 +1,7 @@
 package com.sparta.springblog.service;
 
 import com.sparta.springblog.entity.User;
+import com.sparta.springblog.enums.UserRoleEnum;
 import com.sparta.springblog.jwt.JwtUtil;
 import com.sparta.springblog.repository.UserRepository;
 import com.sparta.springblog.requestdto.LoginRequestDto;
@@ -19,6 +20,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
+    private static final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
+
     @Transactional
     public void signup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
@@ -28,8 +31,17 @@ public class UserService {
         if (found.isPresent()) {
             throw new IllegalArgumentException("중복된 아이디가 존재합니다.");
         }
+        UserRoleEnum role = UserRoleEnum.USER;
+        // 관리자 버튼 클릭시 Admin = true로 변하는 기능의 부재로 작동하지 않아 토큰의 null 여부 확인해서 true로 변환해 줌
+        if (requestDto.getAdminToken() != null) requestDto.setAdmin(true);
+        if (requestDto.isAdmin()) {
+            if(!requestDto.getAdminToken().equals(ADMIN_TOKEN)) {
+                throw new IllegalArgumentException("관리자 암호가 옳지 않아 등록할 수 없습니다.");
+            }
+            role = UserRoleEnum.ADMIN;
+        }
 
-        User user = new User(username, password);
+        User user = new User(username, password, role);
         userRepository.save(user);
     }
 
@@ -45,6 +57,6 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername()));
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername(), user.getRole()));
     }
 }

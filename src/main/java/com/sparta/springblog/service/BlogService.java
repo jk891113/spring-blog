@@ -2,6 +2,7 @@ package com.sparta.springblog.service;
 
 import com.sparta.springblog.entity.Posting;
 import com.sparta.springblog.entity.User;
+import com.sparta.springblog.enums.UserRoleEnum;
 import com.sparta.springblog.jwt.JwtUtil;
 import com.sparta.springblog.repository.BlogRepository;
 import com.sparta.springblog.repository.UserRepository;
@@ -105,10 +106,10 @@ public class BlogService {
                     () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
             );
 
-            if (!user.getUsername().equals(posting.getUser().getUsername())) {
+            UserRoleEnum userRoleEnum = user.getRole();
+            if (!user.getUsername().equals(posting.getUser().getUsername()) && userRoleEnum == UserRoleEnum.USER) {
                 throw new IllegalArgumentException("본인이 작성한 게시글만 수정할 수 있습니다.");
             }
-
             posting.update(requestDto);
             PostingResponseDto responseDto = new PostingResponseDto(posting);
             return responseDto;
@@ -137,7 +138,8 @@ public class BlogService {
                     () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
             );
 
-            if (!user.getUsername().equals(posting.getUser().getUsername())) {
+            UserRoleEnum userRoleEnum = user.getRole();
+            if (!user.getUsername().equals(posting.getUser().getUsername()) && userRoleEnum == UserRoleEnum.USER) {
                 throw new IllegalArgumentException("본인이 작성한 게시글만 삭제할 수 있습니다.");
             }
 
