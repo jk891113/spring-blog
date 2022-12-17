@@ -110,7 +110,7 @@ ___
 ___
 
 ## ERD
-![](/Users/han/Desktop/스크린샷 2022-12-16 오전 9.05.41.png)
+<img src="/Users/han/Desktop/스크린샷 2022-12-16 오전 9.05.41.png"/>
 ___
 
 <br>
@@ -123,7 +123,7 @@ ___
 
 ---
 
-# Sprign 숙련 강의 과제 Lv.2
+# Spring 숙련 강의 과제 Lv.2
 
 ## 댓글 작성/조회/수정/삭제 기능이 추가된 블로그 백엔드 서버 만들기
 
@@ -131,16 +131,16 @@ ___
 
 ## 추가된 요구사항
 ### 1. 회원가입 API
-- username, password를 Client에서 전달받기
-- username은 `최소 4자 이상, 10자 이하이며 알파벳 소문자, 숫자`로 구성
-- password는 `최소 8자 이상, 15자 이하이며 알파벳 대소문자, 숫자`, `특수문자`로 구성
-- DB에 중복된 username이 없다면 회원을 저장하고 Client로 성공 메시지, 상태코드 반환
+- username, password 를 Client 에서 전달받기
+- username 은 `최소 4자 이상, 10자 이하이며 알파벳 소문자, 숫자`로 구성
+- password 는 `최소 8자 이상, 15자 이하이며 알파벳 대소문자, 숫자`, `특수문자`로 구성
+- DB에 중복된 username 이 없다면 회원을 저장하고 Client 로 성공 메시지, 상태코드 반환
 - `회원 권한 부여하기 (ADMIN, USER) - ADMIN 회원은 모든 게시글, 댓글 수정/삭제 가능`
 ### 2. 로그인 API
-- username, password를 Client에서 전달받기
-- DB에서 username을 사용하여 저장된 회원의 유무를 확인하고 있다면 password 비교하기
-- 로그인 성공시, 로그인에 성공한 유저의 정보와 JWT를 활용하여 토큰을 발급하고,<br>
-  발급한 토큰을 Header에 추가하고 성공 메시지, 상태코드 반환
+- username, password 를 Client 에서 전달받기
+- DB 에서 username 을 사용하여 저장된 회원의 유무를 확인하고 있다면 password 비교하기
+- 로그인 성공시, 로그인에 성공한 유저의 정보와 JWT 를 활용하여 토큰을 발급하고,<br>
+  발급한 토큰을 Header 에 추가하고 성공 메시지, 상태코드 반환
 ### 3. `댓글 작성 API`
 - 토큰을 검사한 후, 유효한 토큰인 경우에만 댓글 작성 가능
 - 선택한 게시글의 DB 저장 유무 확인
@@ -152,7 +152,7 @@ ___
 ### 5. `댓글 삭제 API`
 - 토큰을 검사한 후, 유효한 토큰이면서 해당 사용자가 작성한 댓글만 삭제 가능
 - 선택한 댓글의 DB 저장 유무 확인
-- 선택한 댓글이 있다면 댓글 삭제하고 Client로 성공했다는 메시지, 상태코드 반환
+- 선택한 댓글이 있다면 댓글 삭제하고 Client 로 성공했다는 메시지, 상태코드 반환
 ### 6. `예외 처리`
 - 토큰이 필요한 API 요청에서 토큰을 전달하지 않았거나 정상 토큰이 아닌 경우<br> 
   - "토큰이 유효하지 않습니다." 라는 에러메시지와 statusCode : 400을 Client에 반환
@@ -202,10 +202,11 @@ ___
 | 게시글 조회<br/>(username) | `GET`    | /postings/name | username              |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |                     |
 | 게시글 수정                | `PUT`    | /postings/{id} | title<br/>contents    | Authorization : jwt | id<br/>title<br/>username<br/>contents                             |                     |
 | 게시글 삭제                | `DELETE` | /postings/{id} | -                     | Authorization : jwt | status<br/>message                                                 |                     |
-| 댓글 작성                 | `POST`   | /comments/{id} |                       |                     |                                                                    |                     |
-| 댓글 수정                 | `PUT`    | /comments/{id} |                       |                     |                                                                    |                     |
-| 댓글 삭제                 | `DELETE` | /comments/{id} |                       |                     |                                                                    |                     |
+| 댓글 작성                 | `POST`   | /comments/{id} | comment               | Authorization : jwt | id<br/>createdAt<br/>modifiedAt<br/>username<br/>comment           |                     |
+| 댓글 수정                 | `PUT`    | /comments/{id} | comment               | Authorization : jwt | id<br/>createdAt<br/>modifiedAt<br/>username<br/>comment           |                     |
+| 댓글 삭제                 | `DELETE` | /comments/{id} |                       | Authorization : jwt | status<br/>message                                                 |                     |
 
 ---
 
 ## ERD
+<img src="/Users/han/Desktop/스크린샷 2022-12-17 오전 2.29.40.png"/>
