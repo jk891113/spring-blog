@@ -97,7 +97,30 @@ public class CommentService {
     }
 
     @Transactional
-    public void delete() {
+    public void delete(Long id, HttpServletRequest request) {
+        String token = jwtUtil.resolveToken(request);
+        Claims claims;
 
+        if (token != null) {
+            if (jwtUtil.validateToken(token)) {
+                claims = jwtUtil.getUserInfoFromToken(token);
+            } else {
+                throw new IllegalArgumentException("Token Error");
+            }
+
+            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
+                    () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+            );
+
+            Comment comment = commentRepository.findById(id).orElseThrow(
+                    () -> new IllegalArgumentException("해당 포스팅이 존재하지 않습니다.")
+            );
+
+            UserRoleEnum userRoleEnum = user.getRole();
+            if (!user.getUsername().equals(comment.getUser().getUsername()) && userRoleEnum == UserRoleEnum.USER) {
+                throw new IllegalArgumentException("본인이 작성한 댓글만 수정할 수 있습니다.");
+            }
+            comment.update(requestDto);
+            CommentResponseDto responseDto = new CommentResponseDto(comment);
     }
 }

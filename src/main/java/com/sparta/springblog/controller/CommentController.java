@@ -1,12 +1,19 @@
 package com.sparta.springblog.controller;
 
+import com.sparta.springblog.enums.StatusEnum;
 import com.sparta.springblog.requestdto.CommentRequestDto;
 import com.sparta.springblog.responsedto.CommentResponseDto;
+import com.sparta.springblog.responsedto.StatusResponseDto;
 import com.sparta.springblog.service.CommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 @RestController
@@ -31,7 +38,14 @@ public class CommentController {
     }
 
     @DeleteMapping("/comment{id}")
-    public void deleteComment() {
+    public ResponseEntity<StatusResponseDto> deleteComment(@PathVariable Long id, HttpServletRequest request) {
+        StatusResponseDto responseDto = new StatusResponseDto();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        responseDto.setStatus(StatusEnum.OK);
+        responseDto.setMessage("삭제 성공");
 
+        commentService.delete(id, request);
+        return new ResponseEntity<>(responseDto, headers, HttpStatus.OK);
     }
 }

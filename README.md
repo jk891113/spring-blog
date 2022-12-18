@@ -110,7 +110,7 @@ ___
 ___
 
 ## ERD
-<img src="/Users/han/Desktop/스크린샷 2022-12-16 오전 9.05.41.png"/>
+![](src/main/resources/static/lv1ERD.png)
 ___
 
 <br>
@@ -209,4 +209,4 @@ ___
 ---
 
 ## ERD
-<img src="/Users/han/Desktop/스크린샷 2022-12-17 오전 2.29.40.png"/>
+![](src/main/resources/static/lv2ERD.png)
