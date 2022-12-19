@@ -2,7 +2,6 @@ package com.sparta.springblog.service;
 
 import com.sparta.springblog.entity.Posting;
 import com.sparta.springblog.entity.User;
-import com.sparta.springblog.jwt.JwtUtil;
 import com.sparta.springblog.repository.BlogRepository;
 import com.sparta.springblog.repository.UserRepository;
 import com.sparta.springblog.requestdto.PostingRequestDto;
@@ -21,7 +20,6 @@ import java.util.stream.Collectors;
 public class BlogService {
     private final BlogRepository blogRepository;
     private final UserRepository userRepository;
-    private final JwtUtil jwtUtil;
 
     public PostingResponseDto createPosting(PostingRequestDto requestDto, Claims claims) {
 
@@ -66,7 +64,7 @@ public class BlogService {
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
 
-        if (user.isWriter(posting)) {
+        if (user.isPostingWriter(posting)) {
             throw new IllegalArgumentException("본인이 작성한 게시글만 수정할 수 있습니다.");
         }
         posting.update(requestDto);
@@ -83,7 +81,7 @@ public class BlogService {
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
 
-        if (user.isWriter(posting)) {
+        if (user.isPostingWriter(posting)) {
             throw new IllegalArgumentException("본인이 작성한 게시글만 삭제할 수 있습니다.");
         }
 
