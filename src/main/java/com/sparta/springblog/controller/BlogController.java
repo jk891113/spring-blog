@@ -1,11 +1,13 @@
 package com.sparta.springblog.controller;
 
 import com.sparta.springblog.enums.StatusEnum;
+import com.sparta.springblog.jwt.JwtUtil;
 import com.sparta.springblog.requestdto.PostingRequestDto;
 import com.sparta.springblog.requestdto.UpdateRequestDto;
 import com.sparta.springblog.responsedto.PostingResponseDto;
 import com.sparta.springblog.responsedto.StatusResponseDto;
 import com.sparta.springblog.service.BlogService;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BlogController {
     private final BlogService blogService;
+    private final JwtUtil jwtUtil;
 
     @GetMapping("/")
     public ModelAndView home() {
@@ -30,7 +33,28 @@ public class BlogController {
 
     @PostMapping("/postings")
     public PostingResponseDto createPosting(@RequestBody PostingRequestDto requestDto, HttpServletRequest request) {
-        return blogService.createPosting(requestDto, request);
+        String token = jwtUtil.resolveToken(request);
+        Claims claims;
+
+//        if (token == null) {
+//            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
+//        }
+//        if (!jwtUtil.validateToken(token)) {
+//            throw new IllegalArgumentException("Token Error");
+//        }
+//        claims = jwtUtil.getUserInfoFromToken(token);
+//        return blogService.createPosting(requestDto, claims);
+
+        if (token != null) {
+            if (jwtUtil.validateToken(token)) {
+                claims = jwtUtil.getUserInfoFromToken(token);
+            } else {
+                throw new IllegalArgumentException("Token Error");
+            }
+        return blogService.createPosting(requestDto, claims);
+        } else {
+            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
+        }
     }
 
     @GetMapping("/postings")
@@ -50,7 +74,18 @@ public class BlogController {
 
     @PutMapping("/postings/{id}")
     public PostingResponseDto updatePosting(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto, HttpServletRequest request) {
-        return blogService.update(id, requestDto, request);
+        String token = jwtUtil.resolveToken(request);
+        Claims claims;
+        if (token != null) {
+            if (jwtUtil.validateToken(token)) {
+                claims = jwtUtil.getUserInfoFromToken(token);
+            } else {
+                throw new IllegalArgumentException("Token Error");
+            }
+            return blogService.update(id, requestDto, claims);
+        } else {
+            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
+        }
     }
 
     @DeleteMapping("/postings/{id}")
@@ -61,7 +96,19 @@ public class BlogController {
         responseDto.setStatus(StatusEnum.OK);
         responseDto.setMessage("삭제 성공");
 
-        blogService.deletePosting(id, request);
+        String token = jwtUtil.resolveToken(request);
+        Claims claims;
+
+        if (token != null) {
+            if (jwtUtil.validateToken(token)) {
+                claims = jwtUtil.getUserInfoFromToken(token);
+            } else {
+                throw new IllegalArgumentException("Token Error");
+            }
+        blogService.deletePosting(id, claims);
         return new ResponseEntity<>(responseDto, headers, HttpStatus.OK);
+        } else {
+            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
+        }
     }
 }

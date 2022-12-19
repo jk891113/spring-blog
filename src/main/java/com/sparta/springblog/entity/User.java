@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @Entity(name = "users")
@@ -24,12 +21,13 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-    @OneToMany
-    List<Posting> postings = new ArrayList<>();
-
     public User(String username, String password, UserRoleEnum role) {
         this.username = username;
         this.password = password;
         this.role = role;
+    }
+
+    public boolean isWriter(Posting posting) {
+        return !this.username.equals(posting.getUser().getUsername()) && this.role == UserRoleEnum.USER;
     }
 }

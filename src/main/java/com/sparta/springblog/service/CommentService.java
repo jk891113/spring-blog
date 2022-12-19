@@ -65,7 +65,7 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentResponseDto update(Long id, CommentRequestDto requestDto, HttpServletRequest request) {
+    public CommentResponseDto update(Long postingId, Long id, CommentRequestDto requestDto, HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
         Claims claims;
 
@@ -80,7 +80,7 @@ public class CommentService {
                     () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
             );
 
-            Comment comment = commentRepository.findById(id).orElseThrow(
+            Comment comment = commentRepository.findById(postingId).orElseThrow(
                     () -> new IllegalArgumentException("해당 포스팅이 존재하지 않습니다.")
             );
 
@@ -97,7 +97,7 @@ public class CommentService {
     }
 
     @Transactional
-    public void delete(Long id, HttpServletRequest request) {
+    public void delete(Long postingId, Long id, HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
         Claims claims;
 
@@ -112,7 +112,7 @@ public class CommentService {
                     () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
             );
 
-            Comment comment = commentRepository.findById(id).orElseThrow(
+            Comment comment = commentRepository.findById(postingId).orElseThrow(
                     () -> new IllegalArgumentException("해당 포스팅이 존재하지 않습니다.")
             );
 
@@ -120,7 +120,8 @@ public class CommentService {
             if (!user.getUsername().equals(comment.getUser().getUsername()) && userRoleEnum == UserRoleEnum.USER) {
                 throw new IllegalArgumentException("본인이 작성한 댓글만 수정할 수 있습니다.");
             }
-            comment.update(requestDto);
-            CommentResponseDto responseDto = new CommentResponseDto(comment);
+
+            commentRepository.deleteById(id);
+        }
     }
 }

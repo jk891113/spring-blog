@@ -32,20 +32,20 @@ public class CommentController {
         return commentService.create(id, requestDto, request);
     }
 
-    @PutMapping("/comment{id}")
-    public CommentResponseDto updateComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto, HttpServletRequest request) {
-        return commentService.update(id, requestDto, request);
+    @PutMapping("/comment/{postingId}/{id}")
+    public CommentResponseDto updateComment(@PathVariable Long postingId, @PathVariable Long id, @RequestBody CommentRequestDto requestDto, HttpServletRequest request) {
+        return commentService.update(postingId, id, requestDto, request);
     }
 
-    @DeleteMapping("/comment{id}")
-    public ResponseEntity<StatusResponseDto> deleteComment(@PathVariable Long id, HttpServletRequest request) {
+    @DeleteMapping("/comment/{postingId}/{id}")
+    public ResponseEntity<StatusResponseDto> deleteComment(@PathVariable Long postingId, @PathVariable Long id, HttpServletRequest request) {
         StatusResponseDto responseDto = new StatusResponseDto();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         responseDto.setStatus(StatusEnum.OK);
         responseDto.setMessage("삭제 성공");
 
-        commentService.delete(id, request);
+        commentService.delete(postingId, id, request);
         return new ResponseEntity<>(responseDto, headers, HttpStatus.OK);
     }
 }
