@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity(name = "users")
 public class User {
-
     @Id
     @Column(nullable = false, unique = true)
     private String username;

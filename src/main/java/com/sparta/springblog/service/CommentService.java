@@ -25,11 +25,9 @@ public class CommentService {
         User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
-
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 포스팅이 존재하지 않습니다.")
         );
-
         Comment comment = new Comment(requestDto, user, posting);
         commentRepository.save(comment);
         posting.putCommentOnPosting(comment);
@@ -42,11 +40,9 @@ public class CommentService {
         User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
-
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
         );
-
         if (user.isCommentWriter(comment)) {
             throw new IllegalArgumentException("본인이 작성한 댓글만 수정할 수 있습니다.");
         }
@@ -59,15 +55,12 @@ public class CommentService {
         User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
-
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
         );
-
         if (user.isCommentWriter(comment)) {
             throw new IllegalArgumentException("본인이 작성한 댓글만 수정할 수 있습니다.");
         }
-
         commentRepository.deleteById(id);
     }
 }

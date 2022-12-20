@@ -1,9 +1,11 @@
 package com.sparta.springblog.responsedto;
 
 import com.sparta.springblog.enums.StatusEnum;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class StatusResponseDto {
     private StatusEnum status;
     private String message;

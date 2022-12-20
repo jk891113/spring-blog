@@ -30,7 +30,7 @@ public class Posting extends TimeStamped{
 
     @OrderBy(value = "modifiedAt desc")
     @JsonManagedReference
-    @OneToMany(mappedBy = "posting")
+    @OneToMany(mappedBy = "posting", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
     public Posting(PostingRequestDto requestDto, User user) {

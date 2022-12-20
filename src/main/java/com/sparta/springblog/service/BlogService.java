@@ -25,7 +25,6 @@ public class BlogService {
         User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
-
         Posting posting = new Posting(requestDto, user);
         blogRepository.save(posting);
         return new PostingResponseDto(posting);
@@ -35,7 +34,6 @@ public class BlogService {
     public List<PostingResponseDto> getAllPostings() {
         List<Posting> postingList = blogRepository.getAllByOrderByModifiedAtDesc();
         List<PostingResponseDto> responseDtoList = postingList.stream().map(posting -> new PostingResponseDto(posting)).collect(Collectors.toList());
-
         return responseDtoList;
     }
 
@@ -58,11 +56,9 @@ public class BlogService {
         User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
-
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
-
         if (user.isPostingWriter(posting)) {
             throw new IllegalArgumentException("본인이 작성한 게시글만 수정할 수 있습니다.");
         }
@@ -75,15 +71,12 @@ public class BlogService {
         User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
-
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
-
         if (user.isPostingWriter(posting)) {
             throw new IllegalArgumentException("본인이 작성한 게시글만 삭제할 수 있습니다.");
         }
-
         blogRepository.deleteById(id);
     }
 }
