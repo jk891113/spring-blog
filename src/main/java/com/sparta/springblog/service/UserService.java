@@ -36,7 +36,7 @@ public class UserService {
         if (requestDto.getAdminToken() != null) requestDto.setAdmin(true);
         if (requestDto.isAdmin()) {
             if(!requestDto.getAdminToken().equals(ADMIN_TOKEN)) {
-                throw new IllegalArgumentException("관리자 암호가 옳지 않아 등록할 수 없습니다.");
+                throw new IllegalArgumentException("관리자 암호가 일치하지 않아 등록할 수 없습니다.");
             }
             role = UserRoleEnum.ADMIN;
         }

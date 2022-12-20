@@ -22,7 +22,6 @@ public class BlogService {
     private final UserRepository userRepository;
 
     public PostingResponseDto createPosting(PostingRequestDto requestDto, Claims claims) {
-
         User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
@@ -51,7 +50,7 @@ public class BlogService {
     @Transactional(readOnly = true)
     public List<PostingResponseDto> getPostingByUsername(String username) {
         List<Posting> postingList = blogRepository.findByUserUsername(username);
-        return postingList.stream().map(PostingResponseDto::new).collect(Collectors.toList());
+        return postingList.stream().map(posting -> new PostingResponseDto(posting)).collect(Collectors.toList());
     }
 
     @Transactional

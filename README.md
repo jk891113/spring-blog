@@ -202,9 +202,9 @@ ___
 | 게시글 조회<br/>(username) | `GET`    | /postings/name | username              |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents |                     |
 | 게시글 수정                | `PUT`    | /postings/{id} | title<br/>contents    | Authorization : jwt | id<br/>title<br/>username<br/>contents                             |                     |
 | 게시글 삭제                | `DELETE` | /postings/{id} | -                     | Authorization : jwt | status<br/>message                                                 |                     |
-| 댓글 작성                 | `POST`   | /comments/{id} | comment               | Authorization : jwt | id<br/>createdAt<br/>modifiedAt<br/>username<br/>comment           |                     |
-| 댓글 수정                 | `PUT`    | /comments/{id} | comment               | Authorization : jwt | id<br/>createdAt<br/>modifiedAt<br/>username<br/>comment           |                     |
-| 댓글 삭제                 | `DELETE` | /comments/{id} |                       | Authorization : jwt | status<br/>message                                                 |                     |
+| 댓글 작성                 | `POST`   | /comment/{id}  | comment               | Authorization : jwt | id<br/>createdAt<br/>modifiedAt<br/>username<br/>comment           |                     |
+| 댓글 수정                 | `PUT`    | /comment/{id}  | comment               | Authorization : jwt | id<br/>createdAt<br/>modifiedAt<br/>username<br/>comment           |                     |
+| 댓글 삭제                 | `DELETE` | /comment/{id}  |                       | Authorization : jwt | status<br/>message                                                 |                     |
 
 ---
 

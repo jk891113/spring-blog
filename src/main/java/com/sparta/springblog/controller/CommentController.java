@@ -16,19 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
     private final JwtUtil jwtUtil;
-
-    // 테스트
-    @GetMapping("/comment/{id}")
-    public List<CommentResponseDto> showComment(@PathVariable Long id) {
-        return commentService.show(id);
-    }
 
     @PostMapping("/comment/{id}")
     public CommentResponseDto createComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto, HttpServletRequest request) {

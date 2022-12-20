@@ -32,6 +32,6 @@ public class User {
     }
 
     public boolean isCommentWriter(Comment comment) {
-        return !this.username.equals(comment.getUser().getUsername()) && this.role == UserRoleEnum.USER;
+        return !this.username.equals(comment.getUsername()) && this.role == UserRoleEnum.USER;
     }
 }

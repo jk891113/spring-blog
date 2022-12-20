@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionHandler {
 
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @org.springframework.web.bind.annotation.ExceptionHandler(IllegalArgumentException.class)
     public String IllegalArgumentExceptionHandler(IllegalArgumentException e) {
         return e.getMessage();

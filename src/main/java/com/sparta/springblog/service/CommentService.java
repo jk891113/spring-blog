@@ -13,23 +13,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final BlogRepository blogRepository;
-
-    @Transactional(readOnly = true)
-    public List<CommentResponseDto> show(Long id) {
-        List<Comment> commentList = commentRepository.findAll();
-        List<CommentResponseDto> responseDtoList = commentList.stream().map(comment -> new CommentResponseDto(comment)).collect(Collectors.toList());
-
-        return responseDtoList;
-    }
 
     @Transactional
     public CommentResponseDto create(Long id, CommentRequestDto requestDto, Claims claims) {
@@ -43,6 +32,7 @@ public class CommentService {
 
         Comment comment = new Comment(requestDto, user, posting);
         commentRepository.save(comment);
+        posting.putCommentOnPosting(comment);
         return new CommentResponseDto(comment);
     }
 
