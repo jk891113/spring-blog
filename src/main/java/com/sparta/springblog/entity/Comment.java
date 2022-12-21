@@ -1,6 +1,5 @@
 package com.sparta.springblog.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sparta.springblog.requestdto.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,7 +19,7 @@ public class Comment extends TimeStamped{
     @Column(nullable = false)
     private String comment;
 
-    @JsonBackReference
+//    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "posting_id")
     private Posting posting;

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -17,7 +18,7 @@ public class PostingResponseDto {
     private String title;
     private String username;
     private String contents;
-    private List<Comment> commentList;
+    private List<CommentResponseDto> commentList;
 
     public PostingResponseDto(Posting posting) {
         this.createdAt = posting.getCreatedAt();
@@ -26,6 +27,10 @@ public class PostingResponseDto {
         this.title = posting.getTitle();
         this.username = posting.getUser().getUsername();
         this.contents = posting.getContents();
-        this.commentList = posting.getCommentList();
+        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
+        for (Comment comment : posting.getCommentList()) {
+            commentResponseDtoList.add(new CommentResponseDto(comment));
+        }
+        this.commentList = commentResponseDtoList;
     }
 }

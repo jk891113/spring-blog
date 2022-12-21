@@ -1,6 +1,5 @@
 package com.sparta.springblog.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.springblog.requestdto.PostingRequestDto;
 import com.sparta.springblog.requestdto.UpdateRequestDto;
 import jakarta.persistence.*;
@@ -29,7 +28,7 @@ public class Posting extends TimeStamped{
     private User user;
 
     @OrderBy(value = "modifiedAt desc")
-    @JsonManagedReference
+//    @JsonManagedReference
     @OneToMany(mappedBy = "posting", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
