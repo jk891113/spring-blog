@@ -21,7 +21,7 @@ public class Comment extends TimeStamped{
     private String comment;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "posting_id")
     private Posting posting;
 
