@@ -6,6 +6,7 @@ import com.sparta.springblog.repository.BlogRepository;
 import com.sparta.springblog.repository.UserRepository;
 import com.sparta.springblog.requestdto.PostingRequestDto;
 import com.sparta.springblog.requestdto.UpdateRequestDto;
+import com.sparta.springblog.requestdto.UsernameRequestDto;
 import com.sparta.springblog.responsedto.PostingResponseDto;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +47,8 @@ public class BlogService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostingResponseDto> getPostingByUsername(String username) {
+    public List<PostingResponseDto> getPostingByUsername(UsernameRequestDto requestDto) {
+        String username = requestDto.getUsername();
         List<Posting> postingList = blogRepository.findByUserUsername(username);
         return postingList.stream().map(posting -> new PostingResponseDto(posting)).collect(Collectors.toList());
     }

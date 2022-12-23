@@ -4,6 +4,7 @@ import com.sparta.springblog.enums.StatusEnum;
 import com.sparta.springblog.jwt.JwtUtil;
 import com.sparta.springblog.requestdto.PostingRequestDto;
 import com.sparta.springblog.requestdto.UpdateRequestDto;
+import com.sparta.springblog.requestdto.UsernameRequestDto;
 import com.sparta.springblog.responsedto.PostingResponseDto;
 import com.sparta.springblog.responsedto.StatusResponseDto;
 import com.sparta.springblog.service.BlogService;
@@ -57,19 +58,23 @@ public class BlogController {
         }
     }
 
-    @GetMapping("/posts")
-    public List<PostingResponseDto> getAllPostings() {
-        return blogService.getAllPostings();
-    }
+//    @GetMapping("/posts")
+//    public List<PostingResponseDto> getAllPostings() {
+//        return blogService.getAllPostings();
+//    }
 
     @GetMapping("/posts/id")
     public PostingResponseDto getPostingById(@RequestParam Long id) {
         return blogService.getPostingById(id);
     }
 
-    @GetMapping("/posts/name")
-    public List<PostingResponseDto> getPostingByUsername(@RequestParam String username) {
-        return blogService.getPostingByUsername(username);
+    @GetMapping("/posts")
+    public List<PostingResponseDto> getAllPostingsOrGetPostingByUsername(@RequestBody(required = false) UsernameRequestDto requestDto) {
+        if (requestDto == null) {
+            return blogService.getAllPostings();
+        } else {
+            return blogService.getPostingByUsername(requestDto);
+        }
     }
 
     @PutMapping("/posts/{id}")
