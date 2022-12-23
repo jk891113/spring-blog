@@ -31,7 +31,7 @@ public class BlogController {
         return new ModelAndView();
     }
 
-    @PostMapping("/postings")
+    @PostMapping("/posts")
     public PostingResponseDto createPosting(@RequestBody PostingRequestDto requestDto, HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
         Claims claims;
@@ -57,22 +57,22 @@ public class BlogController {
         }
     }
 
-    @GetMapping("/postings")
+    @GetMapping("/posts")
     public List<PostingResponseDto> getAllPostings() {
         return blogService.getAllPostings();
     }
 
-    @GetMapping("/postings/id")
+    @GetMapping("/posts/id")
     public PostingResponseDto getPostingById(@RequestParam Long id) {
         return blogService.getPostingById(id);
     }
 
-    @GetMapping("/postings/name")
+    @GetMapping("/posts/name")
     public List<PostingResponseDto> getPostingByUsername(@RequestParam String username) {
         return blogService.getPostingByUsername(username);
     }
 
-    @PutMapping("/postings/{id}")
+    @PutMapping("/posts/{id}")
     public PostingResponseDto updatePosting(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto, HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
         Claims claims;
@@ -88,7 +88,7 @@ public class BlogController {
         }
     }
 
-    @DeleteMapping("/postings/{id}")
+    @DeleteMapping("/posts/{id}")
     public ResponseEntity<StatusResponseDto> deletePosting(@PathVariable Long id, HttpServletRequest request) {
         StatusResponseDto responseDto = new StatusResponseDto();
         HttpHeaders headers = new HttpHeaders();

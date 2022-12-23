@@ -30,7 +30,7 @@ public class CommentService {
         );
         Comment comment = new Comment(requestDto, user, posting);
         commentRepository.save(comment);
-        posting.putCommentOnPosting(comment);
+//        posting.putCommentOnPosting(comment);
         return new CommentResponseDto(comment);
     }
 

@@ -23,7 +23,7 @@ public class CommentController {
     private final CommentService commentService;
     private final JwtUtil jwtUtil;
 
-    @PostMapping("/comment/{id}")
+    @PostMapping("/posts/{id}/comments")
     public CommentResponseDto createComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto, HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
         Claims claims;
@@ -40,7 +40,7 @@ public class CommentController {
         }
     }
 
-    @PutMapping("/comment/{id}")
+    @PutMapping("/posts/{postId}/comments/{id}")
     public CommentResponseDto updateComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto, HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
         Claims claims;
@@ -57,7 +57,7 @@ public class CommentController {
         }
     }
 
-    @DeleteMapping("/comment/{id}")
+    @DeleteMapping("/posts/{postId}/comments/{id}")
     public ResponseEntity<StatusResponseDto> deleteComment(@PathVariable Long id, HttpServletRequest request) {
         StatusResponseDto responseDto = new StatusResponseDto();
         HttpHeaders headers = new HttpHeaders();
