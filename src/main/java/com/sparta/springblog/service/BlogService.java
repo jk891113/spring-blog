@@ -8,7 +8,6 @@ import com.sparta.springblog.requestdto.PostingRequestDto;
 import com.sparta.springblog.requestdto.UpdateRequestDto;
 import com.sparta.springblog.requestdto.UsernameRequestDto;
 import com.sparta.springblog.responsedto.PostingResponseDto;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,9 +54,6 @@ public class BlogService {
 
     @Transactional
     public PostingResponseDto update(Long id, UpdateRequestDto requestDto, String username) {
-//        User user = userRepository.findByUsername(username).orElseThrow(
-//                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
-//        );
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
@@ -77,16 +73,20 @@ public class BlogService {
     }
 
     @Transactional
-    public void deletePosting(Long id, Claims claims) {
-        User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
-        );
+    public void deletePosting(Long id, String username) {
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
-        if (user.isPostingWriter(posting)) {
+        if (posting.isPostingWriter(username)) {
             throw new IllegalArgumentException("본인이 작성한 게시글만 삭제할 수 있습니다.");
         }
+        blogRepository.deleteById(id);
+    }
+
+    public void deletePostingAdmin(Long id) {
+        Posting posting = blogRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
+        );
         blogRepository.deleteById(id);
     }
 }
