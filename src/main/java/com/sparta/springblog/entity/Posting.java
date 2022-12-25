@@ -23,7 +23,7 @@ public class Posting extends TimeStamped{
     @Column(nullable = false)
     private String contents;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private User user;
 
@@ -42,6 +42,12 @@ public class Posting extends TimeStamped{
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
     }
+
+    public boolean isPostingWriter(String username) {
+        return !username.equals(this.getUser().getUsername());
+//        ) && this.role == UserRoleEnum.USER;
+    }
+
     // JPA가 join 쿼리를 날려서 comment의 값들을 commentList에 자동으로 붙여 넣어주기 때문에 일부러 넣어줄 필요는 없다..
 //    public void putCommentOnPosting(Comment comment) {
 //        this.commentList.add(comment);

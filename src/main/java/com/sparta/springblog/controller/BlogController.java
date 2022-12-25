@@ -1,10 +1,12 @@
 package com.sparta.springblog.controller;
 
 import com.sparta.springblog.enums.StatusEnum;
+import com.sparta.springblog.enums.UserRoleEnum;
 import com.sparta.springblog.jwt.JwtUtil;
 import com.sparta.springblog.requestdto.PostingRequestDto;
 import com.sparta.springblog.requestdto.UpdateRequestDto;
 import com.sparta.springblog.requestdto.UsernameRequestDto;
+import com.sparta.springblog.responsedto.AuthenticatedUserInfoDto;
 import com.sparta.springblog.responsedto.PostingResponseDto;
 import com.sparta.springblog.responsedto.StatusResponseDto;
 import com.sparta.springblog.service.BlogService;
@@ -35,27 +37,23 @@ public class BlogController {
     @PostMapping("/posts")
     public PostingResponseDto createPosting(@RequestBody PostingRequestDto requestDto, HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
-        Claims claims;
 
-//        if (token == null) {
-//            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
-//        }
-//        if (!jwtUtil.validateToken(token)) {
-//            throw new IllegalArgumentException("Token Error");
-//        }
-//        claims = jwtUtil.getUserInfoFromToken(token);
-//        return blogService.createPosting(requestDto, claims);
-
-        if (token != null) {
-            if (jwtUtil.validateToken(token)) {
-                claims = jwtUtil.getUserInfoFromToken(token);
-            } else {
-                throw new IllegalArgumentException("Token Error");
-            }
-        return blogService.createPosting(requestDto, claims);
-        } else {
+        if (token == null) {
             throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
         }
+        AuthenticatedUserInfoDto authenticatedUserInfoDto = jwtUtil.validateAndGetUserInfo(token);
+        return blogService.createPosting(requestDto, authenticatedUserInfoDto.getUsername());
+
+//        if (token != null) {
+//            if (jwtUtil.validateToken(token)) {
+//                claims = jwtUtil.getUserInfoFromToken(token);
+//            } else {
+//                throw new IllegalArgumentException("Token Error");
+//            }
+//        return blogService.createPosting(requestDto, claims);
+//        } else {
+//            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
+//        }
     }
 
 //    @GetMapping("/posts")
@@ -80,17 +78,31 @@ public class BlogController {
     @PutMapping("/posts/{id}")
     public PostingResponseDto updatePosting(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto, HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
-        Claims claims;
-        if (token != null) {
-            if (jwtUtil.validateToken(token)) {
-                claims = jwtUtil.getUserInfoFromToken(token);
-            } else {
-                throw new IllegalArgumentException("Token Error");
-            }
-            return blogService.update(id, requestDto, claims);
-        } else {
+
+        if (token == null) {
             throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
         }
+        AuthenticatedUserInfoDto authenticatedUserInfoDto = jwtUtil.validateAndGetUserInfo(token);
+        if (this.isAdmin(authenticatedUserInfoDto.getUserRoleEnum())) {
+            return blogService.updateAdmin(id, requestDto);
+        } else {
+            return blogService.update(id, requestDto, authenticatedUserInfoDto.getUsername());
+        }
+
+//        if (token != null) {
+//            if (jwtUtil.validateToken(token)) {
+//                claims = jwtUtil.getUserInfoFromToken(token);
+//            } else {
+//                throw new IllegalArgumentException("Token Error");
+//            }
+//            return blogService.update(id, requestDto, claims);
+//        } else {
+//            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
+//        }
+    }
+
+    private boolean isAdmin(UserRoleEnum userRoleEnum) {
+        return userRoleEnum == UserRoleEnum.ADMIN;
     }
 
     @DeleteMapping("/posts/{id}")

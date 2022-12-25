@@ -22,8 +22,8 @@ public class BlogService {
     private final BlogRepository blogRepository;
     private final UserRepository userRepository;
 
-    public PostingResponseDto createPosting(PostingRequestDto requestDto, Claims claims) {
-        User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
+    public PostingResponseDto createPosting(PostingRequestDto requestDto, String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
         Posting posting = new Posting(requestDto, user);
@@ -54,16 +54,24 @@ public class BlogService {
     }
 
     @Transactional
-    public PostingResponseDto update(Long id, UpdateRequestDto requestDto, Claims claims) {
-        User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
-        );
+    public PostingResponseDto update(Long id, UpdateRequestDto requestDto, String username) {
+//        User user = userRepository.findByUsername(username).orElseThrow(
+//                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+//        );
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
-        if (user.isPostingWriter(posting)) {
+        if (posting.isPostingWriter(username)) {
             throw new IllegalArgumentException("본인이 작성한 게시글만 수정할 수 있습니다.");
         }
+        posting.update(requestDto);
+        return new PostingResponseDto(posting);
+    }
+
+    public PostingResponseDto updateAdmin(Long id, UpdateRequestDto requestDto) {
+        Posting posting = blogRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
+        );
         posting.update(requestDto);
         return new PostingResponseDto(posting);
     }

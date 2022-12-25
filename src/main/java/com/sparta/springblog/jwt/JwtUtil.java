@@ -1,6 +1,7 @@
 package com.sparta.springblog.jwt;
 
 import com.sparta.springblog.enums.UserRoleEnum;
+import com.sparta.springblog.responsedto.AuthenticatedUserInfoDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -52,7 +53,7 @@ public class JwtUtil {
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(username)
-                        .claim(AUTHORIZATION_KEY, role) // "Auth" : role
+                        .claim(AUTHORIZATION_KEY, role) // "auth" : role
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME))
                         .setIssuedAt(date)
                         .signWith(key, signatureAlgorithm)
@@ -79,6 +80,17 @@ public class JwtUtil {
     // 토큰에서 사용자 정보 가져오기
     public Claims getUserInfoFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    }
+
+    public AuthenticatedUserInfoDto validateAndGetUserInfo(String token) {
+        if (this.validateToken(token)) {
+            Claims claims = this.getUserInfoFromToken(token);
+            String username = claims.getSubject();
+            UserRoleEnum role = UserRoleEnum.valueOf(claims.get("auth").toString());
+            return new AuthenticatedUserInfoDto(role, username);
+        } else {
+            throw new IllegalArgumentException("Token Error");
+        }
     }
 }
 
