@@ -57,7 +57,7 @@ public class BlogService {
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
-        if (posting.isPostingWriter(username)) {
+        if (!posting.isPostingWriter(username)) {
             throw new IllegalArgumentException("본인이 작성한 게시글만 수정할 수 있습니다.");
         }
         posting.update(requestDto);
@@ -77,7 +77,7 @@ public class BlogService {
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
-        if (posting.isPostingWriter(username)) {
+        if (!posting.isPostingWriter(username)) {
             throw new IllegalArgumentException("본인이 작성한 게시글만 삭제할 수 있습니다.");
         }
         blogRepository.deleteById(id);

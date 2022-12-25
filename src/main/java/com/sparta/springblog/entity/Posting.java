@@ -44,8 +44,7 @@ public class Posting extends TimeStamped{
     }
 
     public boolean isPostingWriter(String username) {
-        return !username.equals(this.getUser().getUsername());
-//        ) && this.role == UserRoleEnum.USER;
+        return username.equals(this.getUser().getUsername());
     }
 
     // JPA가 join 쿼리를 날려서 comment의 값들을 commentList에 자동으로 붙여 넣어주기 때문에 일부러 넣어줄 필요는 없다..

@@ -24,13 +24,17 @@ public class Comment extends TimeStamped{
     @JoinColumn(name = "posting_id")
     private Posting posting;
 
-    public Comment(CommentRequestDto requestDto, User user, Posting posting) {
-        this.username = user.getUsername();
+    public Comment(CommentRequestDto requestDto, String username, Posting posting) {
+        this.username = username;
         this.posting = posting;
         this.comment = requestDto.getComment();
     }
 
     public void update(CommentRequestDto responseDto) {
         this.comment = responseDto.getComment();
+    }
+
+    public boolean isCommentWriter(String username) {
+        return username.equals(this.username);
     }
 }

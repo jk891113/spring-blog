@@ -26,11 +26,11 @@ public class User {
         this.role = role;
     }
 
-    public boolean isPostingWriter(Posting posting) {
-        return !this.username.equals(posting.getUser().getUsername()) && this.role == UserRoleEnum.USER;
-    }
+//    public boolean isPostingWriter(Posting posting) {
+//        return !this.username.equals(posting.getUser().getUsername()) && this.role == UserRoleEnum.USER;
+//    }
 
-    public boolean isCommentWriter(Comment comment) {
-        return !this.username.equals(comment.getUsername()) && this.role == UserRoleEnum.USER;
-    }
+//    public boolean isCommentWriter(Comment comment) {
+//        return !this.username.equals(comment.getUsername()) && this.role == UserRoleEnum.USER;
+//    }
 }

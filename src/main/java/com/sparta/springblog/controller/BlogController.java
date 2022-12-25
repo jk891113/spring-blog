@@ -62,6 +62,10 @@ public class BlogController {
         }
     }
 
+    private boolean isAdmin(UserRoleEnum userRoleEnum) {
+        return userRoleEnum == UserRoleEnum.ADMIN;
+    }
+
     @PutMapping("/admin/posts/{id}")
     public PostingResponseDto updatePostingAdmin(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto, HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
@@ -85,10 +89,6 @@ public class BlogController {
         }
         AuthenticatedUserInfoDto authenticatedUserInfoDto = jwtUtil.validateAndGetUserInfo(token);
         return blogService.update(id, requestDto, authenticatedUserInfoDto.getUsername());
-    }
-
-    private boolean isAdmin(UserRoleEnum userRoleEnum) {
-        return userRoleEnum == UserRoleEnum.ADMIN;
     }
 
     @DeleteMapping("/admin/posts/{id}")
