@@ -66,11 +66,11 @@ public class CommentController {
 
     @DeleteMapping("/admin/posts/{postId}/comments/{id}")
     public ResponseEntity<StatusResponseDto> deleteCommentAdmin(@PathVariable Long id, HttpServletRequest request) {
-        StatusResponseDto responseDto = new StatusResponseDto();
+        StatusResponseDto responseDto = new StatusResponseDto(StatusEnum.OK, "삭제 성공");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        responseDto.setStatus(StatusEnum.OK);
-        responseDto.setMessage("삭제 성공");
+//        responseDto.setStatus(StatusEnum.OK);
+//        responseDto.setMessage("삭제 성공");
 
         String token = jwtUtil.resolveToken(request);
 
@@ -87,11 +87,11 @@ public class CommentController {
 
     @DeleteMapping("/posts/{postId}/comments/{id}")
     public ResponseEntity<StatusResponseDto> deleteComment(@PathVariable Long id, HttpServletRequest request) {
-        StatusResponseDto responseDto = new StatusResponseDto();
+        StatusResponseDto responseDto = new StatusResponseDto(StatusEnum.OK, "삭제 성공");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        responseDto.setStatus(StatusEnum.OK);
-        responseDto.setMessage("삭제 성공");
+//        responseDto.setStatus(StatusEnum.OK);
+//        responseDto.setMessage("삭제 성공");
 
         String token = jwtUtil.resolveToken(request);
 

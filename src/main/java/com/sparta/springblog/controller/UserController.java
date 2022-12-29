@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.nio.charset.Charset;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,12 +31,12 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<StatusResponseDto> signup(@RequestBody @Valid SignupRequestDto requestDto) {
-        StatusResponseDto responseDto = new StatusResponseDto();
+    public ResponseEntity<StatusResponseDto> signup(@RequestBody @Valid SignupRequestDto requestDto) throws SQLIntegrityConstraintViolationException {
+        StatusResponseDto responseDto = new StatusResponseDto(StatusEnum.CREATED, "회원가입 완료");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        responseDto.setStatus(StatusEnum.CREATED);
-        responseDto.setMessage("회원가입 완료");
+//        responseDto.setStatus(StatusEnum.CREATED);
+//        responseDto.setMessage("회원가입 완료");
 
         userService.signup(requestDto);
         return new ResponseEntity<>(responseDto, headers, HttpStatus.CREATED);
@@ -48,11 +49,11 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<StatusResponseDto> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response) {
-        StatusResponseDto responseDto = new StatusResponseDto();
+        StatusResponseDto responseDto = new StatusResponseDto(StatusEnum.OK, "로그인 성공");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-        responseDto.setStatus(StatusEnum.OK);
-        responseDto.setMessage("로그인 성공");
+//        responseDto.setStatus(StatusEnum.OK);
+//        responseDto.setMessage("로그인 성공");
 
         userService.login(requestDto, response);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);

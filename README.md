@@ -192,19 +192,23 @@ ___
 ___
 
 ## API 명세서
-| 기능                    | Method   | URL                           | Request               | Request<br/>Header  | Response                                                                           | Response<br/>Header |
-|-----------------------|----------|-------------------------------|-----------------------|---------------------|------------------------------------------------------------------------------------|---------------------|
-| 회원가입                  | `POST`   | /signup                       | username<br/>password |                     | status<br/>message                                                                 |                     |
-| 로그인                   | `POST`   | /login                        | username<br/>password |                     | status<br/>message                                                                 | Authorization : jwt |
-| 게시글 작성                | `POST`   | /posts                        | title<br/>contents    | Authorization : jwt | id<br/>title<br/>username<br/>contents                                             |                     |
-| 전체 게시글 조회             | `GET`    | /posts                        | -                     |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents<br/>commentList |                     |
-| 게시글 조회<br/>(id)       | `GET`    | /posts/id?id=1                | id                    |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents<br/>commentList |                     |
-| 게시글 조회<br/>(username) | `GET`    | /posts                        | username              |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents<br/>commentList |                     |
-| 게시글 수정                | `PUT`    | /posts/{id}                   | title<br/>contents    | Authorization : jwt | id<br/>title<br/>username<br/>contents                                             |                     |
-| 게시글 삭제                | `DELETE` | /posts/{id}                   | -                     | Authorization : jwt | status<br/>message                                                                 |                     |
-| 댓글 작성                 | `POST`   | /posts/{postId}/comments      | comment               | Authorization : jwt | id<br/>createdAt<br/>modifiedAt<br/>username<br/>comment                           |                     |
-| 댓글 수정                 | `PUT`    | /posts/{postId}/comments/{id} | comment               | Authorization : jwt | id<br/>createdAt<br/>modifiedAt<br/>username<br/>comment                           |                     |
-| 댓글 삭제                 | `DELETE` | /posts/{postId}/comments/{id} |                       | Authorization : jwt | status<br/>message                                                                 |                     |
+| 기능                    | Method   | URL                                 | Request               | Request<br/>Header  | Response                                                                           | Response<br/>Header |
+|-----------------------|----------|-------------------------------------|-----------------------|---------------------|------------------------------------------------------------------------------------|---------------------|
+| 회원가입                  | `POST`   | /signup                             | username<br/>password |                     | status<br/>message                                                                 |                     |
+| 로그인                   | `POST`   | /login                              | username<br/>password |                     | status<br/>message                                                                 | Authorization : jwt |
+| 게시글 작성                | `POST`   | /posts                              | title<br/>contents    | Authorization : jwt | id<br/>title<br/>username<br/>contents                                             |                     |
+| 전체 게시글 조회             | `GET`    | /posts                              | -                     |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents<br/>commentList |                     |
+| 게시글 조회<br/>(id)       | `GET`    | /posts/id?id=1                      | id                    |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents<br/>commentList |                     |
+| 게시글 조회<br/>(username) | `GET`    | /posts                              | username              |                     | createAt<br/>modifiedAt<br/>id<br/>title<br/>username<br/>contents<br/>commentList |                     |
+| 게시글 수정                | `PUT`    | /posts/{id}                         | title<br/>contents    | Authorization : jwt | id<br/>title<br/>username<br/>contents                                             |                     |
+| 게시글 수정 (Admin)        | `PUT`    | /admin/posts/{id}                   | title<br/>contents    | Authorization : jwt | id<br/>title<br/>username<br/>contents                                             |                     |
+| 게시글 삭제                | `DELETE` | /posts/{id}                         | -                     | Authorization : jwt | status<br/>message                                                                 |                     |
+| 게시글 삭제 (Admin)        | `DELETE` | /admin/posts/{id}                   | -                     | Authorization : jwt | status<br/>message                                                                 |                     |
+| 댓글 작성                 | `POST`   | /posts/{postId}/comments            | comment               | Authorization : jwt | id<br/>createdAt<br/>modifiedAt<br/>username<br/>comment                           |                     |
+| 댓글 수정                 | `PUT`    | /posts/{postId}/comments/{id}       | comment               | Authorization : jwt | id<br/>createdAt<br/>modifiedAt<br/>username<br/>comment                           |                     |
+| 댓글 수정 (Admin)         | `PUT`    | /admin/posts/{postId}/comments/{id} | comment               | Authorization : jwt | id<br/>createdAt<br/>modifiedAt<br/>username<br/>comment                           |                     |
+| 댓글 삭제                 | `DELETE` | /posts/{postId}/comments/{id}       |                       | Authorization : jwt | status<br/>message                                                                 |                     |
+| 댓글 삭제 (Admin)         | `DELETE` | /admin/posts/{postId}/comments/{id} |                       | Authorization : jwt | status<br/>message                                                                 |                     |
 
 ---
 
