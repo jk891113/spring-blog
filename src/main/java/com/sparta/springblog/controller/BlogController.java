@@ -9,7 +9,8 @@ import com.sparta.springblog.requestdto.UsernameRequestDto;
 import com.sparta.springblog.responsedto.AuthenticatedUserInfoDto;
 import com.sparta.springblog.responsedto.PostingResponseDto;
 import com.sparta.springblog.responsedto.StatusResponseDto;
-import com.sparta.springblog.service.BlogService;import jakarta.servlet.http.HttpServletRequest;
+import com.sparta.springblog.security.UserDetailsImpl;
+import com.sparta.springblog.service.BlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -69,13 +70,18 @@ public class BlogController {
     }
 
     @PutMapping("/admin/posts/{id}")
-    public PostingResponseDto updatePostingAdmin(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto, HttpServletRequest request) {
-        String token = jwtUtil.resolveToken(request);
-
-        if (token == null) {
-            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
-        }
-        AuthenticatedUserInfoDto authenticatedUserInfoDto = jwtUtil.validateAndGetUserInfo(token);
+    public PostingResponseDto updatePostingAdmin(
+            @PathVariable Long id,
+            @RequestBody UpdateRequestDto requestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+//        String token = jwtUtil.resolveToken(request);
+//
+//        if (token == null) {
+//            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
+//        }
+//        AuthenticatedUserInfoDto authenticatedUserInfoDto = jwtUtil.validateAndGetUserInfo(token);
+        AuthenticatedUserInfoDto authenticatedUserInfoDto = new AuthenticatedUserInfoDto(userDetails.getRole(), userDetails.getUsername());
         if (!this.isAdmin(authenticatedUserInfoDto.getUserRoleEnum())) {
             throw new IllegalArgumentException("권한이 없습니다.");
         }
@@ -83,30 +89,35 @@ public class BlogController {
     }
 
     @PutMapping("/posts/{id}")
-    public PostingResponseDto updatePosting(@PathVariable Long id, @RequestBody UpdateRequestDto requestDto, HttpServletRequest request) {
-        String token = jwtUtil.resolveToken(request);
-
-        if (token == null) {
-            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
-        }
-        AuthenticatedUserInfoDto authenticatedUserInfoDto = jwtUtil.validateAndGetUserInfo(token);
-        return blogService.update(id, requestDto, authenticatedUserInfoDto.getUsername());
+    public PostingResponseDto updatePosting(
+            @PathVariable Long id,
+            @RequestBody UpdateRequestDto requestDto,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+//        String token = jwtUtil.resolveToken(request);
+//
+//        if (token == null) {
+//            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
+//        }
+//        AuthenticatedUserInfoDto authenticatedUserInfoDto = jwtUtil.validateAndGetUserInfo(token);
+        return blogService.update(id, requestDto, userDetails.getUsername());
     }
 
     @DeleteMapping("/admin/posts/{id}")
-    public ResponseEntity<StatusResponseDto> deletePostingAdmin(@PathVariable Long id, HttpServletRequest request) {
+    public ResponseEntity<StatusResponseDto> deletePostingAdmin(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         StatusResponseDto responseDto = new StatusResponseDto(StatusEnum.OK, "삭제 성공");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 //        responseDto.setStatus(StatusEnum.OK);
 //        responseDto.setMessage("삭제 성공");
 
-        String token = jwtUtil.resolveToken(request);
-
-        if (token == null) {
-            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
-        }
-        AuthenticatedUserInfoDto authenticatedUserInfoDto = jwtUtil.validateAndGetUserInfo(token);
+//        String token = jwtUtil.resolveToken(request);
+//
+//        if (token == null) {
+//            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
+//        }
+//        AuthenticatedUserInfoDto authenticatedUserInfoDto = jwtUtil.validateAndGetUserInfo(token);
+        AuthenticatedUserInfoDto authenticatedUserInfoDto = new AuthenticatedUserInfoDto(userDetails.getRole(), userDetails.getUsername());
         if (!this.isAdmin(authenticatedUserInfoDto.getUserRoleEnum())) {
             throw new IllegalArgumentException("권한이 없습니다.");
         }
@@ -114,20 +125,20 @@ public class BlogController {
         return new ResponseEntity<>(responseDto, headers, HttpStatus.OK);
     }
     @DeleteMapping("/posts/{id}")
-    public ResponseEntity<StatusResponseDto> deletePosting(@PathVariable Long id, HttpServletRequest request) {
+    public ResponseEntity<StatusResponseDto> deletePosting(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         StatusResponseDto responseDto = new StatusResponseDto(StatusEnum.OK, "삭제 성공");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 //        responseDto.setStatus(StatusEnum.OK);
 //        responseDto.setMessage("삭제 성공");
 
-        String token = jwtUtil.resolveToken(request);
-
-        if (token == null) {
-            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
-        }
-        AuthenticatedUserInfoDto authenticatedUserInfoDto = jwtUtil.validateAndGetUserInfo(token);
-        blogService.deletePosting(id, authenticatedUserInfoDto.getUsername());
+//        String token = jwtUtil.resolveToken(request);
+//
+//        if (token == null) {
+//            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
+//        }
+//        AuthenticatedUserInfoDto authenticatedUserInfoDto = jwtUtil.validateAndGetUserInfo(token);
+        blogService.deletePosting(id, userDetails.getUsername());
         return new ResponseEntity<>(responseDto, headers, HttpStatus.OK);
     }
 }
