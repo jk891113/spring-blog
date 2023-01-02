@@ -15,6 +15,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,14 +35,14 @@ public class BlogController {
     }
 
     @PostMapping("/posts")
-    public PostingResponseDto createPosting(@RequestBody PostingRequestDto requestDto, HttpServletRequest request) {
-        String token = jwtUtil.resolveToken(request);
-
-        if (token == null) {
-            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
-        }
-        AuthenticatedUserInfoDto authenticatedUserInfoDto = jwtUtil.validateAndGetUserInfo(token);
-        return blogService.createPosting(requestDto, authenticatedUserInfoDto.getUsername());
+    public PostingResponseDto createPosting(@RequestBody PostingRequestDto requestDto, @AuthenticationPrincipal UserDetails userDetails) {
+//        String token = jwtUtil.resolveToken(request);
+//
+//        if (token == null) {
+//            throw new IllegalArgumentException("토큰이 유효하지 않습니다.");
+//        }
+//        AuthenticatedUserInfoDto authenticatedUserInfoDto = jwtUtil.validateAndGetUserInfo(token);
+        return blogService.createPosting(requestDto, userDetails.getUsername());
     }
 
 //    @GetMapping("/posts")
