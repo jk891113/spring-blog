@@ -19,14 +19,17 @@ public class Comment extends TimeStamped{
     @Column(nullable = false)
     private String comment;
 
-//    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "posting_id")
-    private Posting posting;
+    @Column(name = "POST_ID", nullable = false)
+    private Long postId;
 
-    public Comment(CommentRequestDto requestDto, String username, Posting posting) {
+//    @JsonBackReference
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "posting_id")
+//    private Posting posting;
+
+    public Comment(CommentRequestDto requestDto, String username, Long postId) {
         this.username = username;
-        this.posting = posting;
+        this.postId = postId;
         this.comment = requestDto.getComment();
     }
 

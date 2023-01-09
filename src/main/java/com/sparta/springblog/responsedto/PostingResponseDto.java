@@ -8,6 +8,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -20,7 +21,7 @@ public class PostingResponseDto {
     private String contents;
     private List<CommentResponseDto> commentList;
 
-    public PostingResponseDto(Posting posting) {
+    public PostingResponseDto(Posting posting, List<Comment> commentList) {
         this.createdAt = posting.getCreatedAt();
         this.modifiedAt = posting.getModifiedAt();
         this.id = posting.getId();
@@ -28,8 +29,8 @@ public class PostingResponseDto {
         this.username = posting.getUser().getUsername();
         this.contents = posting.getContents();
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
-        for (Comment comment : posting.getCommentList()) {
-            commentResponseDtoList.add(new CommentResponseDto(comment));
+        for (Comment comment : commentList) {
+            if (Objects.equals(comment.getPostId(), posting.getId())) commentResponseDtoList.add(new CommentResponseDto(comment));
         }
         this.commentList = commentResponseDtoList;
     }

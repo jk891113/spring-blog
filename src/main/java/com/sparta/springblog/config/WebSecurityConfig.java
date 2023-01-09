@@ -2,6 +2,7 @@ package com.sparta.springblog.config;
 
 import com.sparta.springblog.jwt.JwtAuthFilter;
 import com.sparta.springblog.jwt.JwtUtil;
+import com.sparta.springblog.security.CustomAuthenticationEntryPoint;
 import com.sparta.springblog.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -23,6 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
 
@@ -46,12 +48,10 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests().requestMatchers("/signup").permitAll()
                 .requestMatchers("/login").permitAll()
-                .requestMatchers("/posts").permitAll()
-                .requestMatchers("/posts/id").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil, userDetailsService), UsernamePasswordAuthenticationFilter.class);
 
-        http.formLogin().loginProcessingUrl("/login-page").permitAll();
+        http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint);
 
         return http.build();
     }

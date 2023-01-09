@@ -1,9 +1,9 @@
 package com.sparta.springblog.jwt;
 
 import com.sparta.springblog.enums.UserRoleEnum;
-import com.sparta.springblog.responsedto.AuthenticatedUserInfoDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SecurityException;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -82,15 +82,15 @@ public class JwtUtil {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
-    public AuthenticatedUserInfoDto validateAndGetUserInfo(String token) {
-        if (this.validateToken(token)) {
-            Claims claims = this.getUserInfoFromToken(token);
-            String username = claims.getSubject();
-            UserRoleEnum role = UserRoleEnum.valueOf(claims.get("auth").toString());
-            return new AuthenticatedUserInfoDto(role, username);
-        } else {
-            throw new IllegalArgumentException("Token Error");
-        }
-    }
+//    public AuthenticatedUserInfoDto validateAndGetUserInfo(String token) {
+//        if (this.validateToken(token)) {
+//            Claims claims = this.getUserInfoFromToken(token);
+//            String username = claims.getSubject();
+//            UserRoleEnum role = UserRoleEnum.valueOf(claims.get("auth").toString());
+//            return new AuthenticatedUserInfoDto(role, username);
+//        } else {
+//            throw new IllegalArgumentException("Token Error");
+//        }
+//    }
 }
 

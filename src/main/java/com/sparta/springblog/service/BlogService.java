@@ -1,8 +1,10 @@
 package com.sparta.springblog.service;
 
+import com.sparta.springblog.entity.Comment;
 import com.sparta.springblog.entity.Posting;
 import com.sparta.springblog.entity.User;
 import com.sparta.springblog.repository.BlogRepository;
+import com.sparta.springblog.repository.CommentRepository;
 import com.sparta.springblog.repository.UserRepository;
 import com.sparta.springblog.requestdto.PostingRequestDto;
 import com.sparta.springblog.requestdto.UpdateRequestDto;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class BlogService {
+    private final CommentRepository commentRepository;
     private final BlogRepository blogRepository;
     private final UserRepository userRepository;
 
@@ -26,14 +29,16 @@ public class BlogService {
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
         Posting posting = new Posting(requestDto, user);
+        List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
         blogRepository.save(posting);
-        return new PostingResponseDto(posting);
+        return new PostingResponseDto(posting, commentList);
     }
 
     @Transactional(readOnly = true)
     public List<PostingResponseDto> getAllPostings() {
         List<Posting> postingList = blogRepository.getAllByOrderByModifiedAtDesc();
-        List<PostingResponseDto> responseDtoList = postingList.stream().map(posting -> new PostingResponseDto(posting)).collect(Collectors.toList());
+        List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
+        List<PostingResponseDto> responseDtoList = postingList.stream().map(posting -> new PostingResponseDto(posting, commentList)).collect(Collectors.toList());
         return responseDtoList;
     }
 
@@ -42,14 +47,16 @@ public class BlogService {
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
-        return new PostingResponseDto(posting);
+        List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
+        return new PostingResponseDto(posting, commentList);
     }
 
     @Transactional(readOnly = true)
     public List<PostingResponseDto> getPostingByUsername(UsernameRequestDto requestDto) {
         String username = requestDto.getUsername();
         List<Posting> postingList = blogRepository.findByUserUsername(username);
-        return postingList.stream().map(posting -> new PostingResponseDto(posting)).collect(Collectors.toList());
+        List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
+        return postingList.stream().map(posting -> new PostingResponseDto(posting, commentList)).collect(Collectors.toList());
     }
 
     @Transactional
@@ -60,16 +67,18 @@ public class BlogService {
         if (!posting.isPostingWriter(username)) {
             throw new IllegalArgumentException("본인이 작성한 게시글만 수정할 수 있습니다.");
         }
+        List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
         posting.update(requestDto);
-        return new PostingResponseDto(posting);
+        return new PostingResponseDto(posting, commentList);
     }
 
     public PostingResponseDto updateAdmin(Long id, UpdateRequestDto requestDto) {
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
+        List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
         posting.update(requestDto);
-        return new PostingResponseDto(posting);
+        return new PostingResponseDto(posting, commentList);
     }
 
     @Transactional

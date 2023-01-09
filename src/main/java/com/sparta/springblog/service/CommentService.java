@@ -24,7 +24,7 @@ public class CommentService {
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 포스팅이 존재하지 않습니다.")
         );
-        Comment comment = new Comment(requestDto, username, posting);
+        Comment comment = new Comment(requestDto, username, id);
         commentRepository.save(comment);
         return new CommentResponseDto(comment);
     }

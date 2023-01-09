@@ -6,9 +6,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @Entity
 @NoArgsConstructor
@@ -27,10 +24,10 @@ public class Posting extends TimeStamped{
     @JoinColumn(nullable = false)
     private User user;
 
-    @OrderBy(value = "modifiedAt desc")
-//    @JsonManagedReference
-    @OneToMany(mappedBy = "posting", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Comment> commentList = new ArrayList<>();
+//    @OrderBy(value = "modifiedAt desc")
+////    @JsonManagedReference
+//    @OneToMany(mappedBy = "posting", cascade = CascadeType.REMOVE, orphanRemoval = true)
+//    private List<Comment> commentList = new ArrayList<>();
 
     public Posting(PostingRequestDto requestDto, User user) {
         this.user = user;
