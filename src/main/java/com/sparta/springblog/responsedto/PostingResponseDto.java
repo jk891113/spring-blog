@@ -16,6 +16,7 @@ public class PostingResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private Long id;
+    private Long categoryId;
     private String title;
     private String username;
     private String contents;
@@ -25,6 +26,7 @@ public class PostingResponseDto {
         this.createdAt = posting.getCreatedAt();
         this.modifiedAt = posting.getModifiedAt();
         this.id = posting.getId();
+        this.categoryId = posting.getCategoryId();
         this.title = posting.getTitle();
         this.username = posting.getUser().getUsername();
         this.contents = posting.getContents();

@@ -4,6 +4,7 @@ import com.sparta.springblog.entity.Comment;
 import com.sparta.springblog.entity.Posting;
 import com.sparta.springblog.entity.User;
 import com.sparta.springblog.repository.BlogRepository;
+import com.sparta.springblog.repository.CategoryRepository;
 import com.sparta.springblog.repository.CommentRepository;
 import com.sparta.springblog.repository.UserRepository;
 import com.sparta.springblog.requestdto.PostingRequestDto;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class BlogService {
+    private final CategoryRepository categoryRepository;
     private final CommentRepository commentRepository;
     private final BlogRepository blogRepository;
     private final UserRepository userRepository;
@@ -27,6 +29,9 @@ public class BlogService {
     public PostingResponseDto createPosting(PostingRequestDto requestDto, String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+        );
+        categoryRepository.findByCategoryId(requestDto.getCategoryId()).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 카테고리입니다.")
         );
         Posting posting = new Posting(requestDto, user);
         List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
@@ -54,7 +59,16 @@ public class BlogService {
     @Transactional(readOnly = true)
     public List<PostingResponseDto> getPostingByUsername(UsernameRequestDto requestDto) {
         String username = requestDto.getUsername();
-        List<Posting> postingList = blogRepository.findByUserUsername(username);
+        List<Posting> postingList = blogRepository.findByUserUsernameOrderByModifiedAtDesc(username);
+        List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
+        return postingList.stream().map(posting -> new PostingResponseDto(posting, commentList)).collect(Collectors.toList());
+    }
+
+    public List<PostingResponseDto> getAllPostingsByCategory(Long categoryId) {
+        categoryRepository.findByCategoryId(categoryId).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 카테고리입니다.")
+        );
+        List<Posting> postingList = blogRepository.findByCategoryIdOrderByModifiedAtDesc(categoryId);
         List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
         return postingList.stream().map(posting -> new PostingResponseDto(posting, commentList)).collect(Collectors.toList());
     }
@@ -63,6 +77,9 @@ public class BlogService {
     public PostingResponseDto update(Long id, UpdateRequestDto requestDto, String username) {
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
+        );
+        categoryRepository.findByCategoryId(requestDto.getCategoryId()).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 카테고리입니다.")
         );
         if (!posting.isPostingWriter(username)) {
             throw new IllegalArgumentException("본인이 작성한 게시글만 수정할 수 있습니다.");
@@ -75,6 +92,9 @@ public class BlogService {
     public PostingResponseDto updateAdmin(Long id, UpdateRequestDto requestDto) {
         Posting posting = blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
+        );
+        categoryRepository.findByCategoryId(requestDto.getCategoryId()).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 카테고리입니다.")
         );
         List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
         posting.update(requestDto);
@@ -93,7 +113,7 @@ public class BlogService {
     }
 
     public void deletePostingAdmin(Long id) {
-        Posting posting = blogRepository.findById(id).orElseThrow(
+        blogRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
         blogRepository.deleteById(id);

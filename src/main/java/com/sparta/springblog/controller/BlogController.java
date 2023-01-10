@@ -64,6 +64,11 @@ public class BlogController {
         }
     }
 
+    @GetMapping("/categories/{categoryId}/posts")
+    public List<PostingResponseDto> getAllPostingsByCategory(@PathVariable Long categoryId) {
+        return blogService.getAllPostingsByCategory(categoryId);
+    }
+
 //    private boolean isAdmin(UserRoleEnum userRoleEnum) {
 //        return userRoleEnum == UserRoleEnum.ADMIN;
 //    }
