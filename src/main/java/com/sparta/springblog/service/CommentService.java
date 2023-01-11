@@ -1,8 +1,8 @@
 package com.sparta.springblog.service;
 
 import com.sparta.springblog.entity.Comment;
-import com.sparta.springblog.entity.Posting;
-import com.sparta.springblog.repository.BlogRepository;
+import com.sparta.springblog.entity.Post;
+import com.sparta.springblog.repository.PostRepository;
 import com.sparta.springblog.repository.CommentRepository;
 import com.sparta.springblog.dto.request.CommentRequestDto;
 import com.sparta.springblog.dto.response.CommentResponseDto;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
-    private final BlogRepository blogRepository;
+    private final PostRepository postRepository;
 
     public List<CommentResponseDto> getChildrenCommentList(Long commentId) {
         Comment parentComment = commentRepository.findById(commentId).orElseThrow(
@@ -35,7 +35,7 @@ public class CommentService {
 //        User user = userRepository.findByUsername(username).orElseThrow(
 //                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
 //        );
-        Posting posting = blogRepository.findById(postId).orElseThrow(
+        Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("해당 포스팅이 존재하지 않습니다.")
         );
         Comment comment = new Comment(requestDto, username, postId);

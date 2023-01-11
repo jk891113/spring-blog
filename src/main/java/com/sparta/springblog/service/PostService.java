@@ -1,16 +1,16 @@
 package com.sparta.springblog.service;
 
 import com.sparta.springblog.entity.Comment;
-import com.sparta.springblog.entity.Posting;
+import com.sparta.springblog.entity.Post;
 import com.sparta.springblog.entity.User;
-import com.sparta.springblog.repository.BlogRepository;
+import com.sparta.springblog.repository.PostRepository;
 import com.sparta.springblog.repository.CategoryRepository;
 import com.sparta.springblog.repository.CommentRepository;
 import com.sparta.springblog.repository.UserRepository;
-import com.sparta.springblog.dto.request.PostingRequestDto;
+import com.sparta.springblog.dto.request.PostRequestDto;
 import com.sparta.springblog.dto.request.UpdateRequestDto;
 import com.sparta.springblog.dto.request.UsernameRequestDto;
-import com.sparta.springblog.dto.response.PostingResponseDto;
+import com.sparta.springblog.dto.response.PostResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,102 +20,102 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class BlogService {
+public class PostService {
     private final CategoryRepository categoryRepository;
     private final CommentRepository commentRepository;
-    private final BlogRepository blogRepository;
+    private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public PostingResponseDto createPosting(PostingRequestDto requestDto, String username) {
+    public PostResponseDto createPosting(PostRequestDto requestDto, String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
         categoryRepository.findByCategoryId(requestDto.getCategoryId()).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 카테고리입니다.")
         );
-        Posting posting = new Posting(requestDto, user);
+        Post post = new Post(requestDto, user);
         List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
-        blogRepository.save(posting);
-        return new PostingResponseDto(posting, commentList);
+        postRepository.save(post);
+        return new PostResponseDto(post, commentList);
     }
 
     @Transactional(readOnly = true)
-    public List<PostingResponseDto> getAllPostings() {
-        List<Posting> postingList = blogRepository.getAllByOrderByModifiedAtDesc();
+    public List<PostResponseDto> getAllPostings() {
+        List<Post> postList = postRepository.getAllByOrderByModifiedAtDesc();
         List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
-        List<PostingResponseDto> responseDtoList = postingList.stream().map(posting -> new PostingResponseDto(posting, commentList)).collect(Collectors.toList());
+        List<PostResponseDto> responseDtoList = postList.stream().map(post -> new PostResponseDto(post, commentList)).collect(Collectors.toList());
         return responseDtoList;
     }
 
     @Transactional(readOnly = true)
-    public PostingResponseDto getPostingById(Long id) {
-        Posting posting = blogRepository.findById(id).orElseThrow(
+    public PostResponseDto getPostingById(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
         List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
-        return new PostingResponseDto(posting, commentList);
+        return new PostResponseDto(post, commentList);
     }
 
     @Transactional(readOnly = true)
-    public List<PostingResponseDto> getPostingByUsername(UsernameRequestDto requestDto) {
+    public List<PostResponseDto> getPostingByUsername(UsernameRequestDto requestDto) {
         String username = requestDto.getUsername();
-        List<Posting> postingList = blogRepository.findByUserUsernameOrderByModifiedAtDesc(username);
+        List<Post> postList = postRepository.findByUserUsernameOrderByModifiedAtDesc(username);
         List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
-        return postingList.stream().map(posting -> new PostingResponseDto(posting, commentList)).collect(Collectors.toList());
+        return postList.stream().map(post -> new PostResponseDto(post, commentList)).collect(Collectors.toList());
     }
 
-    public List<PostingResponseDto> getAllPostingsByCategory(Long categoryId) {
+    public List<PostResponseDto> getAllPostingsByCategory(Long categoryId) {
         categoryRepository.findByCategoryId(categoryId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 카테고리입니다.")
         );
-        List<Posting> postingList = blogRepository.findByCategoryIdOrderByModifiedAtDesc(categoryId);
+        List<Post> postList = postRepository.findByCategoryIdOrderByModifiedAtDesc(categoryId);
         List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
-        return postingList.stream().map(posting -> new PostingResponseDto(posting, commentList)).collect(Collectors.toList());
+        return postList.stream().map(post -> new PostResponseDto(post, commentList)).collect(Collectors.toList());
     }
 
     @Transactional
-    public PostingResponseDto update(Long id, UpdateRequestDto requestDto, String username) {
-        Posting posting = blogRepository.findById(id).orElseThrow(
+    public PostResponseDto update(Long id, UpdateRequestDto requestDto, String username) {
+        Post post = postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
         categoryRepository.findByCategoryId(requestDto.getCategoryId()).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 카테고리입니다.")
         );
-        if (!posting.isPostingWriter(username)) {
+        if (!post.isPostingWriter(username)) {
             throw new IllegalArgumentException("본인이 작성한 게시글만 수정할 수 있습니다.");
         }
         List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
-        posting.update(requestDto);
-        return new PostingResponseDto(posting, commentList);
+        post.update(requestDto);
+        return new PostResponseDto(post, commentList);
     }
 
-    public PostingResponseDto updateAdmin(Long id, UpdateRequestDto requestDto) {
-        Posting posting = blogRepository.findById(id).orElseThrow(
+    public PostResponseDto updateAdmin(Long id, UpdateRequestDto requestDto) {
+        Post post = postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
         categoryRepository.findByCategoryId(requestDto.getCategoryId()).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 카테고리입니다.")
         );
         List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
-        posting.update(requestDto);
-        return new PostingResponseDto(posting, commentList);
+        post.update(requestDto);
+        return new PostResponseDto(post, commentList);
     }
 
     @Transactional
     public void deletePosting(Long id, String username) {
-        Posting posting = blogRepository.findById(id).orElseThrow(
+        Post post = postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
-        if (!posting.isPostingWriter(username)) {
+        if (!post.isPostingWriter(username)) {
             throw new IllegalArgumentException("본인이 작성한 게시글만 삭제할 수 있습니다.");
         }
-        blogRepository.deleteById(id);
+        postRepository.deleteById(id);
     }
 
     public void deletePostingAdmin(Long id) {
-        blogRepository.findById(id).orElseThrow(
+        postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
-        blogRepository.deleteById(id);
+        postRepository.deleteById(id);
     }
 }

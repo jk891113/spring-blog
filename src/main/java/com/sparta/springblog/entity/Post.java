@@ -1,6 +1,6 @@
 package com.sparta.springblog.entity;
 
-import com.sparta.springblog.dto.request.PostingRequestDto;
+import com.sparta.springblog.dto.request.PostRequestDto;
 import com.sparta.springblog.dto.request.UpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Posting extends TimeStamped{
+public class Post extends TimeStamped{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -32,7 +32,7 @@ public class Posting extends TimeStamped{
 //    @OneToMany(mappedBy = "posting", cascade = CascadeType.REMOVE, orphanRemoval = true)
 //    private List<Comment> commentList = new ArrayList<>();
 
-    public Posting(PostingRequestDto requestDto, User user) {
+    public Post(PostRequestDto requestDto, User user) {
         this.user = user;
         this.categoryId = requestDto.getCategoryId();
         this.title = requestDto.getTitle();

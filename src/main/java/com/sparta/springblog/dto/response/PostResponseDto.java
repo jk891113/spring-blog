@@ -1,7 +1,7 @@
 package com.sparta.springblog.dto.response;
 
 import com.sparta.springblog.entity.Comment;
-import com.sparta.springblog.entity.Posting;
+import com.sparta.springblog.entity.Post;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
-public class PostingResponseDto {
+public class PostResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private Long id;
@@ -22,17 +22,17 @@ public class PostingResponseDto {
     private String contents;
     private List<CommentResponseDto> commentList;
 
-    public PostingResponseDto(Posting posting, List<Comment> commentList) {
-        this.createdAt = posting.getCreatedAt();
-        this.modifiedAt = posting.getModifiedAt();
-        this.id = posting.getId();
-        this.categoryId = posting.getCategoryId();
-        this.title = posting.getTitle();
-        this.username = posting.getUser().getUsername();
-        this.contents = posting.getContents();
+    public PostResponseDto(Post post, List<Comment> commentList) {
+        this.createdAt = post.getCreatedAt();
+        this.modifiedAt = post.getModifiedAt();
+        this.id = post.getId();
+        this.categoryId = post.getCategoryId();
+        this.title = post.getTitle();
+        this.username = post.getUser().getUsername();
+        this.contents = post.getContents();
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
         for (Comment comment : commentList) {
-            if (Objects.equals(comment.getPostId(), posting.getId())) commentResponseDtoList.add(new CommentResponseDto(comment));
+            if (Objects.equals(comment.getPostId(), post.getId())) commentResponseDtoList.add(new CommentResponseDto(comment));
         }
         this.commentList = commentResponseDtoList;
     }

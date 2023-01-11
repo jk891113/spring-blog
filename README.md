@@ -30,12 +30,12 @@ ___
 
 | 기능                    | Method   | URL           | Request                                        | Response                                                       |
 |-----------------------|----------|---------------|------------------------------------------------|----------------------------------------------------------------|
-| 게시글 생성                | `POST`   | /posting      | title<br/>contents<br/>writerName<br/>password | title<br/>writerName<br/>password<br/>contents                 |
+| 게시글 생성                | `POST`   | /post      | title<br/>contents<br/>writerName<br/>password | title<br/>writerName<br/>password<br/>contents                 |
 | 전체 게시글 조회             | `GET`    | /postings     | -                                              | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
-| 게시글 조회<br/>(id)       | `GET`    | /posting/id   | -                                              | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
-| 게시글 조회<br/>(username) | `GET`    | /posting/name | -                                              | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
-| 게시글 수정                | `PUT`    | /posting/{id} | title2<br/>contents2<br/>writerName2           |                                                                |
-| 게시글 삭제                | `DELETE` | /posting/{id} | -                                              |                                                                |
+| 게시글 조회<br/>(id)       | `GET`    | /post/id   | -                                              | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
+| 게시글 조회<br/>(username) | `GET`    | /post/name | -                                              | createdAt<br/>modifiedAt<br/>title<br/>writerName<br/>contents |
+| 게시글 수정                | `PUT`    | /post/{id} | title2<br/>contents2<br/>writerName2           |                                                                |
+| 게시글 삭제                | `DELETE` | /post/{id} | -                                              |                                                                |
 
 ___
 <br>
