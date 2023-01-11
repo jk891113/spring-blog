@@ -82,6 +82,7 @@ public class CommentService {
                 () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
         );
         commentRepository.deleteById(commentId);
+        commentRepository.deleteByParentId(commentId);
     }
 
     @Transactional
@@ -96,5 +97,6 @@ public class CommentService {
             throw new IllegalArgumentException("본인이 작성한 댓글만 삭제할 수 있습니다.");
         }
         commentRepository.deleteById(commentId);
+        commentRepository.deleteByParentId(commentId);
     }
 }
