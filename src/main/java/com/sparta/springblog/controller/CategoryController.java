@@ -3,12 +3,19 @@ package com.sparta.springblog.controller;
 import com.sparta.springblog.dto.request.CategoryRequestDto;
 import com.sparta.springblog.dto.response.CategoryListResponseDto;
 import com.sparta.springblog.dto.response.CategoryResponseDto;
+import com.sparta.springblog.dto.response.StatusResponseDto;
+import com.sparta.springblog.enums.StatusEnum;
 import com.sparta.springblog.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 @RestController
@@ -32,28 +39,32 @@ public class CategoryController {
     }
 
     @PostMapping("/categories")
-    public void createCategory(@RequestBody CategoryRequestDto requestDto,
+    public CategoryResponseDto createCategory(@RequestBody CategoryRequestDto requestDto,
                                @AuthenticationPrincipal UserDetails userDetails) {
-        categoryService.createCategory(requestDto.getName());
+        return categoryService.createCategory(requestDto.getName());
     }
 
     @PostMapping("/categories/{categoryId}")
-    public void createChildrenCategory(@PathVariable Long categoryId,
+    public CategoryResponseDto createChildrenCategory(@PathVariable Long categoryId,
                                        @RequestBody CategoryRequestDto requestDto,
                                        @AuthenticationPrincipal UserDetails userDetails) {
-        categoryService.createChildrenCategory(categoryId, requestDto.getName());
+        return categoryService.createChildrenCategory(categoryId, requestDto.getName());
     }
 
     @PutMapping("/categories/{categoryId}")
-    public void updateCategory(@PathVariable Long categoryId,
+    public CategoryResponseDto updateCategory(@PathVariable Long categoryId,
                                @RequestBody CategoryRequestDto requestDto,
                                @AuthenticationPrincipal UserDetails userDetails) {
-        categoryService.updateCategory(categoryId, requestDto.getName());
+        return categoryService.updateCategory(categoryId, requestDto.getName());
     }
 
     @DeleteMapping("/categories/{categoryId}")
-    public void deleteCategory(@PathVariable Long categoryId,
+    public ResponseEntity<StatusResponseDto> deleteCategory(@PathVariable Long categoryId,
                                @AuthenticationPrincipal UserDetails userDetails) {
+        StatusResponseDto responseDto = new StatusResponseDto(StatusEnum.OK, "삭제 성공");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         categoryService.deleteCategory(categoryId);
+        return new ResponseEntity<>(responseDto, headers, HttpStatus.OK);
     }
 }

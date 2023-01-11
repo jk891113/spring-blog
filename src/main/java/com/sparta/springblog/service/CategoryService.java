@@ -45,14 +45,15 @@ public class CategoryService {
         return responseDtos;
     }
 
-    public void createCategory(String name) {
+    public CategoryResponseDto createCategory(String name) {
         Optional<Category> found = categoryRepository.findByName(name);
         if (found.isPresent()) throw new IllegalArgumentException("중복된 카테고리명이 존재합니다.");
         Category category = new Category(name);
         categoryRepository.save(category);
+        return new CategoryResponseDto(category);
     }
 
-    public void createChildrenCategory(Long categoryId, String name) {
+    public CategoryResponseDto createChildrenCategory(Long categoryId, String name) {
         Category parentCategory = categoryRepository.findByCategoryId(categoryId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 카테고리입니다.")
         );
@@ -63,10 +64,11 @@ public class CategoryService {
         String parent = parentCategory.getName();
         Category category = new Category(name, layer, parent);
         categoryRepository.save(category);
+        return new CategoryResponseDto(category);
     }
 
     @Transactional
-    public void updateCategory(Long categoryId, String name) {
+    public CategoryResponseDto updateCategory(Long categoryId, String name) {
         Category category = categoryRepository.findByCategoryId(categoryId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 카테고리입니다.")
         );
@@ -79,6 +81,7 @@ public class CategoryService {
             childrenCategory.updateChildrenCategoryParent(name);
         }
         category.updateCategoryName(name);
+        return new CategoryResponseDto(category);
     }
 
     @Transactional
