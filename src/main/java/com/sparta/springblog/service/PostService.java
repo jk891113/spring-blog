@@ -110,6 +110,7 @@ public class PostService {
             throw new IllegalArgumentException("본인이 작성한 게시글만 삭제할 수 있습니다.");
         }
         postRepository.deleteById(postId);
+        commentRepository.deleteByPostId(postId);
     }
 
     public void deletePostingAdmin(Long postId) {
@@ -117,5 +118,6 @@ public class PostService {
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
         postRepository.deleteById(postId);
+        commentRepository.deleteByPostId(postId);
     }
 }
