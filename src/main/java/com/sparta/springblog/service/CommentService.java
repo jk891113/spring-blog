@@ -47,7 +47,7 @@ public class CommentService {
         Comment parentComment = commentRepository.findById(parentId).orElseThrow(
                 () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
         );
-        Comment comment = new Comment(parentId, requestDto, username);
+        Comment comment = new Comment(parentId, requestDto, username, postId);
         commentRepository.save(comment);
         return new CommentResponseDto(comment);
     }

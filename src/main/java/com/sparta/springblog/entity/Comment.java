@@ -19,6 +19,7 @@ public class Comment extends TimeStamped{
     @Column(nullable = false)
     private String comment;
 
+    @Column(name = "PARENT_ID", nullable = false)
     private Long parentId = 0L;
 
 //    private int layer = 0;
@@ -37,10 +38,11 @@ public class Comment extends TimeStamped{
         this.comment = requestDto.getComment();
     }
 
-    public Comment(Long parentId, CommentRequestDto requestDto, String username) {
+    public Comment(Long parentId, CommentRequestDto requestDto, String username, Long postId) {
         this.username = username;
         this.parentId = parentId;
         this.comment = requestDto.getComment();
+        this.postId = postId;
     }
 
 //    public Comment(CommentRequestDto requestDto, String username, Long postId, Long parentId, int layer) {
