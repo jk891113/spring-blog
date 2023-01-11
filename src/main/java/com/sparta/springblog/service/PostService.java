@@ -48,8 +48,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public PostResponseDto getPostingById(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(
+    public PostResponseDto getPostingById(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
         List<Comment> commentList = commentRepository.getAllByOrderByModifiedAtDesc();
@@ -74,8 +74,8 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto update(Long id, UpdateRequestDto requestDto, String username) {
-        Post post = postRepository.findById(id).orElseThrow(
+    public PostResponseDto update(Long postId, UpdateRequestDto requestDto, String username) {
+        Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
         categoryRepository.findByCategoryId(requestDto.getCategoryId()).orElseThrow(
@@ -89,8 +89,8 @@ public class PostService {
         return new PostResponseDto(post, commentList);
     }
 
-    public PostResponseDto updateAdmin(Long id, UpdateRequestDto requestDto) {
-        Post post = postRepository.findById(id).orElseThrow(
+    public PostResponseDto updateAdmin(Long postId, UpdateRequestDto requestDto) {
+        Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
         categoryRepository.findByCategoryId(requestDto.getCategoryId()).orElseThrow(
@@ -102,20 +102,20 @@ public class PostService {
     }
 
     @Transactional
-    public void deletePosting(Long id, String username) {
-        Post post = postRepository.findById(id).orElseThrow(
+    public void deletePosting(Long postId, String username) {
+        Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
         if (!post.isPostingWriter(username)) {
             throw new IllegalArgumentException("본인이 작성한 게시글만 삭제할 수 있습니다.");
         }
-        postRepository.deleteById(id);
+        postRepository.deleteById(postId);
     }
 
-    public void deletePostingAdmin(Long id) {
-        postRepository.findById(id).orElseThrow(
+    public void deletePostingAdmin(Long postId) {
+        postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
-        postRepository.deleteById(id);
+        postRepository.deleteById(postId);
     }
 }
