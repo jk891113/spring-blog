@@ -1,4 +1,4 @@
-package com.sparta.springblog.responsedto;
+package com.sparta.springblog.dto.response;
 
 import com.sparta.springblog.entity.Comment;
 import com.sparta.springblog.entity.Posting;

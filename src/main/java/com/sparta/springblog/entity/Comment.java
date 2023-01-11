@@ -1,6 +1,6 @@
 package com.sparta.springblog.entity;
 
-import com.sparta.springblog.requestdto.CommentRequestDto;
+import com.sparta.springblog.dto.request.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

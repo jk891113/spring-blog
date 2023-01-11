@@ -1,9 +1,9 @@
-package com.sparta.springblog.requestdto;
+package com.sparta.springblog.dto.request;
 
 import lombok.Getter;
 
 @Getter
-public class PostingRequestDto {
+public class UpdateRequestDto {
     private Long categoryId;
     private String title;
     private String contents;

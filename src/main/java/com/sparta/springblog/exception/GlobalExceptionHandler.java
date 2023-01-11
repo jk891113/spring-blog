@@ -1,7 +1,7 @@
 package com.sparta.springblog.exception;
 
 import com.sparta.springblog.enums.StatusEnum;
-import com.sparta.springblog.responsedto.StatusResponseDto;
+import com.sparta.springblog.dto.response.StatusResponseDto;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;

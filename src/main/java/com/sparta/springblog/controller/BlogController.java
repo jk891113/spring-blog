@@ -2,11 +2,11 @@ package com.sparta.springblog.controller;
 
 import com.sparta.springblog.enums.StatusEnum;
 import com.sparta.springblog.enums.UserRoleEnum;
-import com.sparta.springblog.requestdto.PostingRequestDto;
-import com.sparta.springblog.requestdto.UpdateRequestDto;
-import com.sparta.springblog.requestdto.UsernameRequestDto;
-import com.sparta.springblog.responsedto.PostingResponseDto;
-import com.sparta.springblog.responsedto.StatusResponseDto;
+import com.sparta.springblog.dto.request.PostingRequestDto;
+import com.sparta.springblog.dto.request.UpdateRequestDto;
+import com.sparta.springblog.dto.request.UsernameRequestDto;
+import com.sparta.springblog.dto.response.PostingResponseDto;
+import com.sparta.springblog.dto.response.StatusResponseDto;
 import com.sparta.springblog.service.BlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

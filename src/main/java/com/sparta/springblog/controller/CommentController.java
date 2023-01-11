@@ -2,9 +2,9 @@ package com.sparta.springblog.controller;
 
 import com.sparta.springblog.enums.StatusEnum;
 import com.sparta.springblog.enums.UserRoleEnum;
-import com.sparta.springblog.requestdto.CommentRequestDto;
-import com.sparta.springblog.responsedto.CommentResponseDto;
-import com.sparta.springblog.responsedto.StatusResponseDto;
+import com.sparta.springblog.dto.request.CommentRequestDto;
+import com.sparta.springblog.dto.response.CommentResponseDto;
+import com.sparta.springblog.dto.response.StatusResponseDto;
 import com.sparta.springblog.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

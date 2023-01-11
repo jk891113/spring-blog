@@ -1,4 +1,4 @@
-package com.sparta.springblog.requestdto;
+package com.sparta.springblog.dto.request;
 
 import lombok.Getter;
 

@@ -1,9 +1,9 @@
 package com.sparta.springblog.controller;
 
 import com.sparta.springblog.enums.StatusEnum;
-import com.sparta.springblog.requestdto.LoginRequestDto;
-import com.sparta.springblog.requestdto.SignupRequestDto;
-import com.sparta.springblog.responsedto.StatusResponseDto;
+import com.sparta.springblog.dto.request.LoginRequestDto;
+import com.sparta.springblog.dto.request.SignupRequestDto;
+import com.sparta.springblog.dto.response.StatusResponseDto;
 import com.sparta.springblog.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;

@@ -2,8 +2,8 @@ package com.sparta.springblog.service;
 
 import com.sparta.springblog.entity.Category;
 import com.sparta.springblog.repository.CategoryRepository;
-import com.sparta.springblog.responsedto.CategoryListResponseDto;
-import com.sparta.springblog.responsedto.CategoryResponseDto;
+import com.sparta.springblog.dto.response.CategoryListResponseDto;
+import com.sparta.springblog.dto.response.CategoryResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

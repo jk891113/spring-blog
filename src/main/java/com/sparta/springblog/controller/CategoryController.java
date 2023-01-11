@@ -1,8 +1,8 @@
 package com.sparta.springblog.controller;
 
-import com.sparta.springblog.requestdto.CategoryRequestDto;
-import com.sparta.springblog.responsedto.CategoryListResponseDto;
-import com.sparta.springblog.responsedto.CategoryResponseDto;
+import com.sparta.springblog.dto.request.CategoryRequestDto;
+import com.sparta.springblog.dto.response.CategoryListResponseDto;
+import com.sparta.springblog.dto.response.CategoryResponseDto;
 import com.sparta.springblog.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
