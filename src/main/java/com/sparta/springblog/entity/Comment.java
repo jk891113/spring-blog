@@ -19,8 +19,12 @@ public class Comment extends TimeStamped{
     @Column(nullable = false)
     private String comment;
 
+    private Long parentId = 0L;
+
+//    private int layer = 0;
+
     @Column(name = "POST_ID", nullable = false)
-    private Long postId;
+    private Long postId = 0L;
 
 //    @JsonBackReference
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -32,6 +36,20 @@ public class Comment extends TimeStamped{
         this.postId = postId;
         this.comment = requestDto.getComment();
     }
+
+    public Comment(Long parentId, CommentRequestDto requestDto, String username) {
+        this.username = username;
+        this.parentId = parentId;
+        this.comment = requestDto.getComment();
+    }
+
+//    public Comment(CommentRequestDto requestDto, String username, Long postId, Long parentId, int layer) {
+//        this.username = username;
+//        this.postId = postId;
+//        this.comment = requestDto.getComment();
+//        this.parentId = parentId;
+//        this.layer = layer;
+//    }
 
     public void update(CommentRequestDto responseDto) {
         this.comment = responseDto.getComment();

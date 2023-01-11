@@ -2,7 +2,6 @@ package com.sparta.springblog.controller;
 
 import com.sparta.springblog.enums.StatusEnum;
 import com.sparta.springblog.enums.UserRoleEnum;
-import com.sparta.springblog.jwt.JwtUtil;
 import com.sparta.springblog.requestdto.PostingRequestDto;
 import com.sparta.springblog.requestdto.UpdateRequestDto;
 import com.sparta.springblog.requestdto.UsernameRequestDto;
@@ -27,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BlogController {
     private final BlogService blogService;
-    private final JwtUtil jwtUtil;
+//    private final JwtUtil jwtUtil;
 
     @GetMapping("/")
     public ModelAndView home() {
