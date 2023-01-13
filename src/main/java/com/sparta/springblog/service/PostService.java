@@ -110,14 +110,17 @@ public class PostService {
             throw new IllegalArgumentException("본인이 작성한 게시글만 삭제할 수 있습니다.");
         }
         postRepository.deleteById(postId);
-        commentRepository.deleteByPostId(postId);
+//        commentRepository.deleteAllByIdIn(postId);
     }
 
+    @Transactional
     public void deletePostingAdmin(Long postId) {
         postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
         postRepository.deleteById(postId);
-        commentRepository.deleteByPostId(postId);
+//        commentRepository.deleteByPostId(postId);
+//        List<Comment> commentList = commentRepository.findByPostId(postId);
+//        List<Long> commentIdList = commentList.stream().map(Comment::getId).collect(Collectors.toList());
     }
 }

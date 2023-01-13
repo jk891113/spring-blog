@@ -4,6 +4,8 @@ import com.sparta.springblog.dto.request.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Entity
@@ -19,30 +21,35 @@ public class Comment extends TimeStamped{
     @Column(nullable = false)
     private String comment;
 
-    @Column(name = "PARENT_ID", nullable = false)
-    private Long parentId = 0L;
+//    @Column(name = "PARENT_ID", nullable = false)
+//    private Long parentId = 0L;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PARENT_ID")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Comment parent;
 
 //    private int layer = 0;
 
-    @Column(name = "POST_ID", nullable = false)
-    private Long postId = 0L;
+//    @Column(name = "POST_ID", nullable = false)
+//    private Long postId = 0L;
 
-//    @JsonBackReference
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "posting_id")
-//    private Posting posting;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "POST_ID", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Post post;
 
-    public Comment(CommentRequestDto requestDto, String username, Long postId) {
+    public Comment(CommentRequestDto requestDto, String username, Post post) {
         this.username = username;
-        this.postId = postId;
+        this.post = post;
         this.comment = requestDto.getComment();
     }
 
-    public Comment(Long parentId, CommentRequestDto requestDto, String username, Long postId) {
+    public Comment(Comment parent, CommentRequestDto requestDto, String username, Post post) {
         this.username = username;
-        this.parentId = parentId;
+        this.parent = parent;
         this.comment = requestDto.getComment();
-        this.postId = postId;
+        this.post = post;
     }
 
 //    public Comment(CommentRequestDto requestDto, String username, Long postId, Long parentId, int layer) {
@@ -53,8 +60,8 @@ public class Comment extends TimeStamped{
 //        this.layer = layer;
 //    }
 
-    public void update(CommentRequestDto responseDto) {
-        this.comment = responseDto.getComment();
+    public void update(CommentRequestDto requestDto) {
+        this.comment = requestDto.getComment();
     }
 
     public boolean isCommentWriter(String username) {

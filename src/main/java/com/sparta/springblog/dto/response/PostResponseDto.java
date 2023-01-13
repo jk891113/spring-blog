@@ -32,7 +32,7 @@ public class PostResponseDto {
         this.contents = post.getContents();
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
         for (Comment comment : commentList) {
-            if (Objects.equals(comment.getPostId(), post.getId()) && comment.getParentId() == 0)
+            if (Objects.equals(comment.getPost().getId(), post.getId()) && comment.getId() == 0)
                 commentResponseDtoList.add(new CommentResponseDto(comment));
         }
         this.commentList = commentResponseDtoList;
