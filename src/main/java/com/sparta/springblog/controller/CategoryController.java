@@ -5,12 +5,14 @@ import com.sparta.springblog.dto.response.CategoryListResponseDto;
 import com.sparta.springblog.dto.response.CategoryResponseDto;
 import com.sparta.springblog.dto.response.StatusResponseDto;
 import com.sparta.springblog.enums.StatusEnum;
+import com.sparta.springblog.enums.UserRoleEnum;
 import com.sparta.springblog.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -38,12 +40,14 @@ public class CategoryController {
         return categoryService.getChildrenCategories(categoryId);
     }
 
+    @Secured(UserRoleEnum.Authority.ADMIN)
     @PostMapping("/categories")
     public CategoryResponseDto createCategory(@RequestBody CategoryRequestDto requestDto,
                                @AuthenticationPrincipal UserDetails userDetails) {
         return categoryService.createCategory(requestDto.getName());
     }
 
+    @Secured(UserRoleEnum.Authority.ADMIN)
     @PostMapping("/categories/{categoryId}")
     public CategoryResponseDto createChildrenCategory(@PathVariable Long categoryId,
                                        @RequestBody CategoryRequestDto requestDto,
@@ -51,6 +55,7 @@ public class CategoryController {
         return categoryService.createChildrenCategory(categoryId, requestDto.getName());
     }
 
+    @Secured(UserRoleEnum.Authority.ADMIN)
     @PutMapping("/categories/{categoryId}")
     public CategoryResponseDto updateCategory(@PathVariable Long categoryId,
                                @RequestBody CategoryRequestDto requestDto,
@@ -58,6 +63,7 @@ public class CategoryController {
         return categoryService.updateCategory(categoryId, requestDto.getName());
     }
 
+    @Secured(UserRoleEnum.Authority.ADMIN)
     @DeleteMapping("/categories/{categoryId}")
     public ResponseEntity<StatusResponseDto> deleteCategory(@PathVariable Long categoryId,
                                @AuthenticationPrincipal UserDetails userDetails) {

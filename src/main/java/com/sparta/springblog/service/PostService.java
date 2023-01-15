@@ -119,7 +119,7 @@ public class PostService {
                 () -> new IllegalArgumentException("존재하지 않는 포스팅입니다.")
         );
         postRepository.deleteById(postId);
-//        commentRepository.deleteByPostId(postId);
+        commentRepository.deleteByPostId(postId);
 //        List<Comment> commentList = commentRepository.findByPostId(postId);
 //        List<Long> commentIdList = commentList.stream().map(Comment::getId).collect(Collectors.toList());
     }

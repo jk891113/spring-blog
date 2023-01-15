@@ -38,7 +38,7 @@ public class CommentService {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("해당 포스팅이 존재하지 않습니다.")
         );
-        Comment comment = new Comment(requestDto, username, post);
+        Comment comment = new Comment(requestDto, username, postId);
         commentRepository.save(comment);
         return new CommentResponseDto(comment);
     }
@@ -50,7 +50,7 @@ public class CommentService {
         Comment parentComment = commentRepository.findById(parentId).orElseThrow(
                 () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
         );
-        Comment comment = new Comment(parentComment, requestDto, username, post);
+        Comment comment = new Comment(parentId, requestDto, username, postId);
         commentRepository.save(comment);
         return new CommentResponseDto(comment);
     }
@@ -85,7 +85,7 @@ public class CommentService {
                 () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
         );
         commentRepository.deleteById(commentId);
-//        commentRepository.deleteByParentId(commentId);
+        commentRepository.deleteByParentId(commentId);
     }
 
     @Transactional
@@ -100,6 +100,6 @@ public class CommentService {
             throw new IllegalArgumentException("본인이 작성한 댓글만 삭제할 수 있습니다.");
         }
         commentRepository.deleteById(commentId);
-//        commentRepository.deleteByParentId(commentId);
+        commentRepository.deleteByParentId(commentId);
     }
 }
